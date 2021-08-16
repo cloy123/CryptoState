@@ -55,7 +55,7 @@ class PageRates : Fragment() {
         binding.refresh.setOnClickListener {
             viewModel.updateRates()
         }
-        recyclerAdapter = context?.let { RatesRecyclerAdapter(it) }!!
+        recyclerAdapter = RatesRecyclerAdapter()
         binding.recyclerView.adapter = recyclerAdapter
         if(viewModel.rates.value != null && !viewModel.rates.value!!.isEmpty()){
             recyclerAdapter.setItems(viewModel.rates.value!!)

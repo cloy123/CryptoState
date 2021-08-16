@@ -30,6 +30,9 @@ class Rates {
     fun add(rate: Rate){
         items.add(rate)
     }
+    fun remove(rate: Rate): Boolean{
+        return items.remove(rate)
+    }
 
     fun isEmpty():Boolean{
         if(items.size > 0){

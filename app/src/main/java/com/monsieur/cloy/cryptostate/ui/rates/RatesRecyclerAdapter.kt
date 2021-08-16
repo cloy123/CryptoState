@@ -1,6 +1,8 @@
 package com.monsieur.cloy.cryptostate.ui.rates
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +12,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Rates.Rates
+import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
+import com.monsieur.cloy.cryptostate.utilits.showToast
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
-class RatesRecyclerAdapter(context: Context) : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHolder>() {
+class RatesRecyclerAdapter() : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHolder>() {
 
     private var items: Rates? = null
-
 
         fun getSize() : Int {
             return if(items != null){
@@ -26,19 +31,12 @@ class RatesRecyclerAdapter(context: Context) : RecyclerView.Adapter<RatesRecycle
                 0
             }
     }
-//    set(value) {
-//        field = value
-//        notifyDataSetChanged()
-//    }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(items : Rates){
         this.items = items
         notifyDataSetChanged()
     }
-
-
-    private val context: Context = context
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var symbol: TextView = itemView.findViewById(R.id.symbol)
@@ -77,8 +75,11 @@ class RatesRecyclerAdapter(context: Context) : RecyclerView.Adapter<RatesRecycle
                 }
             }
             holder.delete.setOnClickListener {
-                Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show()
-                //TODO("сделать удаление курса")
+                Toast.makeText(APP_ACTIVITY, "delete", Toast.LENGTH_SHORT).show()
+                val viewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
+                if(!viewModel.removeRate(items!!.items[position])){
+                    Log.d("myExeptions", "Ошибка при удалении Rate")
+                }
             }
         }
     }

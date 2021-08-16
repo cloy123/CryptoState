@@ -23,6 +23,10 @@ class MainViewModel: ViewModel() {
 
     var rates : MutableLiveData<Rates> = MutableLiveData()
 
+    private var streamReader: InputStreamReader? = null
+    private var fileInputStream: FileInputStream? = null
+    private var fileOutputStream: FileOutputStream? = null
+
     fun updateRates(){
         GlobalScope.launch {
             if(rates.value != null && rates.value!!.items.size > 0){
@@ -39,6 +43,22 @@ class MainViewModel: ViewModel() {
                     saveRates()
                 }
             }
+        }
+    }
+
+    fun removeRate(rate: Rate): Boolean{
+        val newRates = rates.value
+        val result = newRates?.remove(rate)
+        rates.value = newRates
+        return if(result == true){
+            GlobalScope.launch {
+                if(!saveRates()){
+                    Log.d("myExeptions", "ошибка при сохрнении Rates")
+                }
+            }
+            true
+        }else{
+            false
         }
     }
 
@@ -83,10 +103,6 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    private var streamReader: InputStreamReader? = null
-    private var fileInputStream: FileInputStream? = null
-    private var fileOutputStream: FileOutputStream? = null
-
     private fun saveRates(): Boolean{
         fileOutputStream = null
         try {
@@ -107,26 +123,6 @@ class MainViewModel: ViewModel() {
         val jsonString = gson.toJson(dataItems)
         fileOutputStream = APP_ACTIVITY.openFileOutput(TRAINING_FILE_NAME, Context.MODE_PRIVATE)
         fileOutputStream!!.write(jsonString.toByteArray())
-    }
-
-    private fun closeStreamReader(){
-        if (streamReader != null) {
-            try {
-                streamReader!!.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun closeFileInputStream(){
-        if (fileInputStream != null) {
-            try {
-                fileInputStream!!.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
     }
 
     private fun closeFileOutputStream(){
