@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">CryptoState</string>
+
+    <string name="url">https://www.google.com/finance/quote/</string>
+
+    <string name="page_courses_name">Курсы</string>
+    <string name="page_my_assets_state_name">Активы</string>
+    
+    <string-array name="categories">
+        <item>Всё</item>
+        <item>Фиат</item>
+        <item>Крипта</item>
+        <item>Акции</item>
+        <item>Облигации</item>
+        <item>Акции и облигации</item>
+        <item>Другое</item>
+    </string-array>
+
+    <string-array name="categories_names">
+        <item>Фиат</item>
+        <item>Крипта</item>
+        <item>Акции</item>
+        <item>Облигации</item>
+        <item>Другое</item>
+    </string-array>
+
+    <string-array name="currency">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+        <item>UAH</item>
+        <item>У.Е.</item>
+    </string-array>
+</resources>
