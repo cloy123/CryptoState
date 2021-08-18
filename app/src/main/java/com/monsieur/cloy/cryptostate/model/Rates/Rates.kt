@@ -1,6 +1,7 @@
 package com.monsieur.cloy.cryptostate.model.Rates
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -12,16 +13,19 @@ class Rates {
     var ifLastUpdateError = false
     var usdRates: UsdRates = UsdRates()
 
-    fun UpdateRates(){
-        usdRates.UpdateUsdRates()
+    fun updateRates(){
+        ifLastUpdateError = false
+        usdRates.updateUsdRates()
         if(usdRates.ifLastUpdateError){
             ifLastUpdateError = true
+            Log.d("myExeptions", "usdRates")
             return
         }else{
             for(rate in items){
                 rate.UpdateCurrency(usdRates)
                 if(rate.ifLastUpdateError){
                     ifLastUpdateError = true
+                    Log.d("myExeptions", rate.symbol)
                 }
             }
         }
@@ -39,14 +43,5 @@ class Rates {
             return false
         }
         return true
-    }
-
-    companion object{
-        fun load(context: Context, fileName: String): Rates{
-            TODO()
-//            val fileInputStream = context.openFileInput(fileName)
-//            val streamReader = InputStreamReader(fileInputStream)
-//            val gson = Gson()
-        }
     }
 }

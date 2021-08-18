@@ -9,18 +9,15 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.FragmentRatesBinding
-import com.monsieur.cloy.cryptostate.model.Rates.Rate
-import com.monsieur.cloy.cryptostate.model.Rates.Rates
 import com.monsieur.cloy.cryptostate.utilits.addHomeButton
-import com.monsieur.cloy.cryptostate.utilits.deleteHomeButton
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
-import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
+import com.monsieur.cloy.cryptostate.viewModels.RatesViewModel
 
 class PageRates : Fragment() {
 
     private var _binding: FragmentRatesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: RatesViewModel
     private lateinit var recyclerAdapter: RatesRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,17 +26,13 @@ class PageRates : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRatesBinding.inflate(inflater, container, false)
+        initViewModel()
+        initFunc()
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        initViewModel()
-        initFunc()
-    }
-
     private fun initViewModel(){
-        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(RatesViewModel::class.java)
         viewModel.rates.observe(this, Observer {
             recyclerAdapter.setItems(it)
             Toast.makeText(context, recyclerAdapter.getSize().toString(), Toast.LENGTH_SHORT).show()
@@ -51,10 +44,7 @@ class PageRates : Fragment() {
             replaceFragment(AddRate())
             addHomeButton()
         }
-
-        binding.refresh.setOnClickListener {
-            viewModel.updateRates()
-        }
+        binding.refresh.setOnClickListener { viewModel.updateRates() }
         recyclerAdapter = RatesRecyclerAdapter()
         binding.recyclerView.adapter = recyclerAdapter
         if(viewModel.rates.value != null && !viewModel.rates.value!!.isEmpty()){

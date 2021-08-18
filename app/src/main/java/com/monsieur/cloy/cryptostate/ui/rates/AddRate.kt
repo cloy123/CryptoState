@@ -1,27 +1,16 @@
 package com.monsieur.cloy.cryptostate.ui.rates
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
-import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentAddRateBinding
 import com.monsieur.cloy.cryptostate.model.Rates.Rate
 import com.monsieur.cloy.cryptostate.utilits.*
-import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.monsieur.cloy.cryptostate.viewModels.RatesViewModel
 import org.jsoup.Connection
-import org.jsoup.Jsoup
-import java.net.HttpURLConnection
-import java.net.URL
 
 class AddRate : Fragment() {
 
@@ -53,32 +42,32 @@ class AddRate : Fragment() {
                 showToast("Поле символ - пусто")
                 return@setOnClickListener
             }else{
-                val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+                val viewModel = ViewModelProvider(requireActivity()).get(RatesViewModel::class.java)
                 viewModel.addRate(Rate(binding.symbol.text.trim().toString(), spinnerTextToCurrency(), spinnerTextToCategory()))
                 backButton()
             }
         }
     }
 
-    private fun spinnerTextToCurrency(): Rate.Companion.Currency{
+    private fun spinnerTextToCurrency(): Currency{
         return when(binding.spinnerCurrency.selectedItemId.toInt()){
-            0 -> Rate.Companion.Currency.USD
-            1 -> Rate.Companion.Currency.EUR
-            2 -> Rate.Companion.Currency.RUB
-            3 -> Rate.Companion.Currency.UAH
-            4 -> Rate.Companion.Currency.ConventionalUnit
-            else -> Rate.Companion.Currency.USD
+            0 -> Currency.USD
+            1 -> Currency.EUR
+            2 -> Currency.RUB
+            3 -> Currency.UAH
+            4 -> Currency.ConventionalUnit
+            else -> Currency.USD
         }
     }
 
-    private fun spinnerTextToCategory(): Rate.Companion.Categories{
+    private fun spinnerTextToCategory(): Categories{
         return when(binding.spinnerCurrency.selectedItemId.toInt()){
-            0 -> Rate.Companion.Categories.Fiat
-            1 -> Rate.Companion.Categories.Crypto
-            2 -> Rate.Companion.Categories.Stock
-            3 -> Rate.Companion.Categories.Bonds
-            4 -> Rate.Companion.Categories.Other
-            else -> Rate.Companion.Categories.Fiat
+            0 -> Categories.Fiat
+            1 -> Categories.Crypto
+            2 -> Categories.Stock
+            3 -> Categories.Bonds
+            4 -> Categories.Other
+            else -> Categories.Fiat
         }
     }
 

@@ -1,32 +1,26 @@
 package com.monsieur.cloy.cryptostate.model.Rates
 
 import android.util.Log
-import com.monsieur.cloy.cryptostate.utilits.showToast
 import com.monsieur.cloy.cryptostate.utilits.url
 import org.jsoup.Jsoup
 
 class UsdRates {
 
     var ifLastUpdateError = false
-    var UsdRubRate: Float = 1f
-    var UsdEurRate: Float = 1f
-    var UsdUahRate: Float = 1f
+    var rateUsdRub: Float = 1f
+    var rateUsdEur: Float = 1f
+    var rateUsdUah: Float = 1f
 
-    fun UpdateUsdRates(){
-        if(UpdateUsdEurRate() && UpdateUsdRubRate() && UpdateUsdUahRate()){
-            ifLastUpdateError = false
-        }
-        else{
-            ifLastUpdateError = true
-        }
+    fun updateUsdRates(){
+        ifLastUpdateError = !(updateUsdEurRate() && updateUsdRubRate() && updateUsdUahRate())
     }
 
-    private fun UpdateUsdUahRate(): Boolean{
+    private fun updateUsdUahRate(): Boolean{
         try {
             val doc = Jsoup.connect(url + "USD-UAH").get().body()
             var rateText = doc.select("div[class=YMlKec fxKbKc]").text()
             rateText =  rateText.replace(",", "")
-            UsdUahRate = rateText.toFloat()
+            rateUsdUah = rateText.toFloat()
             Log.d("text", "UsdUahRate = $rateText")
             return true
         } catch (e: Exception) {
@@ -39,12 +33,12 @@ class UsdRates {
         }
     }
 
-    private fun UpdateUsdEurRate(): Boolean{
+    private fun updateUsdEurRate(): Boolean{
         try {
             val doc = Jsoup.connect(url + "USD-EUR").get().body()
             var rateText = doc.select("div[class=YMlKec fxKbKc]").text()
             rateText =  rateText.replace(",", "")
-            UsdEurRate = rateText.toFloat()
+            rateUsdEur = rateText.toFloat()
             Log.d("text", "UsdEurRate = $rateText")
             return true
         } catch (e: Exception) {
@@ -57,12 +51,12 @@ class UsdRates {
         }
     }
 
-    private fun UpdateUsdRubRate(): Boolean{
+    private fun updateUsdRubRate(): Boolean{
         try {
             val doc = Jsoup.connect(url + "USD-RUB").get().body()
             var rateText = doc.select("div[class=YMlKec fxKbKc]").text()
             rateText =  rateText.replace(",", "")
-            UsdRubRate = rateText.toFloat()
+            rateUsdRub = rateText.toFloat()
             Log.d("text", "UsdRubRate = $rateText")
             return true
         } catch (e: Exception) {

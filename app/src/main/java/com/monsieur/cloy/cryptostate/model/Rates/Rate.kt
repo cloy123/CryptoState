@@ -6,81 +6,61 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import java.util.*
+import com.monsieur.cloy.cryptostate.utilits.Currency
+import com.monsieur.cloy.cryptostate.utilits.Categories
 
-class Rate(symbol: String, mainCurrency: Currency, category: Categories) {
+class Rate(var symbol: String, private var mainCurrency: Currency, var category: Categories) {
 
     var ifLastUpdateError: Boolean = false
 
-    var Symbol: String = symbol
-    var MainCurrency: Currency = mainCurrency
-    var Category: Categories = category
-
-    var USDRate: Float = 0f
-    var EURRate: Float = 0f
-    var RUBRate: Float = 0f
-    var UAHRate: Float = 0f
-    var ConventionalUnitRate: Float = 0f
+    var rateUSD: Float = 0f
+    var rateEUR: Float = 0f
+    var rateRUB: Float = 0f
+    var rateUAH: Float = 0f
+    private var conventionalUnitRate: Float = 0f
 
     fun getMainRate(): Float {
-        return when (MainCurrency) {
-            Companion.Currency.RUB -> RUBRate
-            Companion.Currency.USD -> USDRate
-            Companion.Currency.EUR -> EURRate
-            Companion.Currency.UAH -> UAHRate
-            Currency.ConventionalUnit -> ConventionalUnitRate
+        return when (mainCurrency) {
+            Currency.RUB -> rateRUB
+            Currency.USD -> rateUSD
+            Currency.EUR -> rateEUR
+            Currency.UAH -> rateUAH
+            Currency.ConventionalUnit -> conventionalUnitRate
         }
     }
 
     fun setMainRate(rate: Float) {
-        when (MainCurrency) {
-            Companion.Currency.RUB -> RUBRate = rate
-            Companion.Currency.USD -> USDRate = rate
-            Companion.Currency.EUR -> EURRate = rate
-            Companion.Currency.UAH -> UAHRate = rate
-            Currency.ConventionalUnit -> ConventionalUnitRate = rate
-        }
-    }
-
-    companion object {
-        enum class Currency {
-            USD,
-            EUR,
-            RUB,
-            UAH,
-            ConventionalUnit
-        }
-
-        enum class Categories {
-            Fiat,
-            Crypto,
-            Stock,
-            Bonds,
-            Other
+        when (mainCurrency) {
+            Currency.RUB -> rateRUB = rate
+            Currency.USD -> rateUSD = rate
+            Currency.EUR -> rateEUR = rate
+            Currency.UAH -> rateUAH = rate
+            Currency.ConventionalUnit -> conventionalUnitRate = rate
         }
     }
 
     fun UpdateCurrency(usdRates: UsdRates) {
         UpdateMainCurrency()
-        if(ifLastUpdateError || MainCurrency == Currency.ConventionalUnit){
+        if(ifLastUpdateError || mainCurrency == Currency.ConventionalUnit){
             return
         }
 
-        if(MainCurrency == Currency.USD){
-            RUBRate = USDRate * usdRates.UsdRubRate
-            EURRate = USDRate * usdRates.UsdEurRate
-            UAHRate = USDRate * usdRates.UsdUahRate
-        }else if(MainCurrency == Currency.EUR){
-            USDRate = EURRate / usdRates.UsdEurRate
-            RUBRate = USDRate * usdRates.UsdRubRate
-            UAHRate = USDRate * usdRates.UsdUahRate
-        }else if(MainCurrency == Currency.RUB){
-            USDRate = RUBRate / usdRates.UsdRubRate
-            EURRate = USDRate * usdRates.UsdEurRate
-            UAHRate = USDRate * usdRates.UsdUahRate
-        }else if(MainCurrency == Currency.UAH){
-            USDRate = UAHRate / usdRates.UsdUahRate
-            RUBRate = USDRate * usdRates.UsdRubRate
-            EURRate = USDRate * usdRates.UsdEurRate
+        if(mainCurrency == Currency.USD){
+            rateRUB = rateUSD * usdRates.rateUsdRub
+            rateEUR = rateUSD * usdRates.rateUsdEur
+            rateUAH = rateUSD * usdRates.rateUsdUah
+        }else if(mainCurrency == Currency.EUR){
+            rateUSD = rateEUR / usdRates.rateUsdEur
+            rateRUB = rateUSD * usdRates.rateUsdRub
+            rateUAH = rateUSD * usdRates.rateUsdUah
+        }else if(mainCurrency == Currency.RUB){
+            rateUSD = rateRUB / usdRates.rateUsdRub
+            rateEUR = rateUSD * usdRates.rateUsdEur
+            rateUAH = rateUSD * usdRates.rateUsdUah
+        }else if(mainCurrency == Currency.UAH){
+            rateUSD = rateUAH / usdRates.rateUsdUah
+            rateRUB = rateUSD * usdRates.rateUsdRub
+            rateEUR = rateUSD * usdRates.rateUsdEur
         }
     }
 
@@ -88,7 +68,7 @@ class Rate(symbol: String, mainCurrency: Currency, category: Categories) {
 
     fun UpdateMainCurrency() {
         try {
-            val doc = Jsoup.connect(url + Symbol).get().body()
+            val doc = Jsoup.connect(url + symbol).get().body()
             var rateText = doc.select("div[class=YMlKec fxKbKc]").text()
             rateText = rateText.replace(",", "")
             setMainRate(rateText.toFloat())
