@@ -5,7 +5,7 @@
 
     <string name="page_courses_name">Курсы</string>
     <string name="page_my_assets_state_name">Активы</string>
-    
+
     <string-array name="categories">
         <item>Всё</item>
         <item>Фиат</item>
@@ -31,4 +31,6 @@
         <item>UAH</item>
         <item>У.Е.</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

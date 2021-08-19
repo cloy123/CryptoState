@@ -40,11 +40,15 @@ class PageRates : Fragment() {
     }
 
     private fun initFunc(){
-        binding.fab.setOnClickListener {
+        binding.add.setOnClickListener {
             replaceFragment(AddRate())
             addHomeButton()
         }
         binding.refresh.setOnClickListener { viewModel.updateRates() }
+        initRecyclerAdapter()
+    }
+
+    private fun initRecyclerAdapter(){
         recyclerAdapter = RatesRecyclerAdapter()
         binding.recyclerView.adapter = recyclerAdapter
         if(viewModel.rates.value != null && !viewModel.rates.value!!.isEmpty()){

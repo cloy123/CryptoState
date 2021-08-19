@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.monsieur.cloy.cryptostate.R
 
-class PageMyAssetsState : Fragment() {
+class AddAsset : Fragment() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,11 +18,12 @@ class PageMyAssetsState : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_page_my_assets_state, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_add_asset, container, false)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = PageMyAssetsState()
+        fun newInstance() = AddAsset()
     }
 }
