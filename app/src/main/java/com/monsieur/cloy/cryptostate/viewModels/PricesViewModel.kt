@@ -2,58 +2,55 @@ package com.monsieur.cloy.cryptostate.viewModels
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.monsieur.cloy.cryptostate.model.Rates.Rate
-import com.monsieur.cloy.cryptostate.model.Rates.Rates
-import com.monsieur.cloy.cryptostate.model.Rates.UsdRates
+import com.monsieur.cloy.cryptostate.model.Prices.Price
+import com.monsieur.cloy.cryptostate.model.Prices.Prices
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.utilits.TRAINING_FILE_NAME
+import com.monsieur.cloy.cryptostate.utilits.FILE_NAME
 import com.monsieur.cloy.cryptostate.utilits.showToast
 import kotlinx.coroutines.*
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
-import kotlin.coroutines.CoroutineContext
 
-class RatesViewModel: ViewModel() {
+class PricesViewModel: ViewModel() {
 
-    var rates : MutableLiveData<Rates> = MutableLiveData()
+    var prices : MutableLiveData<Prices> = MutableLiveData()
 
     private var streamReader: InputStreamReader? = null
     private var fileInputStream: FileInputStream? = null
     private var fileOutputStream: FileOutputStream? = null
 
-    fun updateRates(){
+    fun updatePrices(){
         GlobalScope.launch {
-            if(rates.value != null && rates.value!!.items.size > 0){
-                val newRates = rates.value!!
-                newRates.updateRates()
-                if(newRates.ifLastUpdateError){
+            if(prices.value != null && prices.value!!.items.size > 0){
+                val newPrice = prices.value!!
+                newPrice.updatePrices()
+                if(newPrice.ifLastUpdateError){
                         GlobalScope.launch(Dispatchers.Main){
                         showToast("Ошибка при обновлении данных курсов")
                     }
                 }
                 Log.d("text", "Complete")
                 GlobalScope.launch(Dispatchers.Main){
-                    rates.value = newRates
-                    saveRates()
+                    prices.value = newPrice
+                    savePrices()
                 }
             }
         }
     }
 
-    fun removeRate(rate: Rate): Boolean{
-        val newRates = rates.value
-        val result = newRates?.remove(rate)
-        rates.value = newRates
+    fun removePrice(price: Price): Boolean{
+        val newPrice = prices.value
+        val result = newPrice?.remove(price)
+        prices.value = newPrice
         return if(result == true){
             GlobalScope.launch {
-                if(!saveRates()){
-                    Log.d("myExeptions", "ошибка при сохрнении Rates")
+                if(!savePrices()){
+                    Log.d("myExeptions", "ошибка при сохрнении Prices")
                 }
             }
             true
@@ -62,26 +59,26 @@ class RatesViewModel: ViewModel() {
         }
     }
 
-    fun loadRates(){
+    fun loadPrices(){
         GlobalScope.launch {
-            var loadedRates = getRatesFromJson()
-            if(loadedRates == null){
-                loadedRates = Rates()
-                Log.d("myExeptions", "ошибка при загрузке rates из JSON или их просто ещё нету")
+            var loadedPrices = getPricesFromJson()
+            if(loadedPrices == null){
+                loadedPrices = Prices()
+                Log.d("myExeptions", "ошибка при загрузке prices из JSON или их просто ещё нету")
             }
             GlobalScope.launch(Dispatchers.Main) {
-                rates.value = loadedRates
+                prices.value = loadedPrices
             }
         }
     }
 
-    private fun getRatesFromJson():Rates?{
+    private fun getPricesFromJson():Prices?{
         try {
-            fileInputStream = APP_ACTIVITY?.openFileInput(TRAINING_FILE_NAME)
+            fileInputStream = APP_ACTIVITY.openFileInput(FILE_NAME)
             streamReader = InputStreamReader(fileInputStream)
             val gson = Gson()
             val dataItems: DataItems = gson.fromJson(streamReader, DataItems::class.java)
-            return dataItems.rates
+            return dataItems.prices
         }catch (e:Exception){
             e.message?.let { Log.d("myExeption", it) }
             return null
@@ -89,24 +86,24 @@ class RatesViewModel: ViewModel() {
 
     }
 
-    fun addRate(rate: Rate){
-        var newRates = rates.value
-        if(newRates == null){
-            newRates = Rates()
+    fun addPrice(price: Price){
+        var newPrices = prices.value
+        if(newPrices == null){
+            newPrices = Prices()
         }
-        newRates.add(rate)
-        rates.value = newRates
+        newPrices.add(price)
+        prices.value = newPrices
         GlobalScope.launch {
-            if(!saveRates()){
-                Log.d("myExeptions", "ошибка при сохрнении Rates")
+            if(!savePrices()){
+                Log.d("myExeptions", "ошибка при сохрнении Prices")
             }
         }
     }
 
-    private fun saveRates(): Boolean{
+    private fun savePrices(): Boolean{
         fileOutputStream = null
         try {
-            saveRatesToJson()
+            savePricesToJson()
             return true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -116,12 +113,12 @@ class RatesViewModel: ViewModel() {
         return false
     }
 
-    private fun saveRatesToJson(){
+    private fun savePricesToJson(){
         val gson = Gson()
         val dataItems = DataItems()
-        dataItems.rates = rates.value
+        dataItems.prices = prices.value
         val jsonString = gson.toJson(dataItems)
-        fileOutputStream = APP_ACTIVITY.openFileOutput(TRAINING_FILE_NAME, Context.MODE_PRIVATE)
+        fileOutputStream = APP_ACTIVITY.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)
         fileOutputStream!!.write(jsonString.toByteArray())
     }
 
@@ -136,6 +133,6 @@ class RatesViewModel: ViewModel() {
     }
 
     private class DataItems {
-        var rates: Rates? = null
+        var prices: Prices? = null
     }
 }

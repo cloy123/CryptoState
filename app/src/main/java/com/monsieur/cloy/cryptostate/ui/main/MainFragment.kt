@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
-import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentMainBinding
-import com.monsieur.cloy.cryptostate.model.Rates.Rate
-import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
 import com.monsieur.cloy.cryptostate.utilits.deleteHomeButton
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
@@ -38,15 +35,15 @@ class MainFragment : Fragment() {
     private fun initFunc(){
         createViewPager()
 //        binding.spinner.setOnItemClickListener { _, _, position, _ ->
-//            val array :List<Rate.Companion.Categories> = when(position){
-//                0 -> List(5){Rate.Companion.Categories.Fiat; Rate.Companion.Categories.Crypto; Rate.Companion.Categories.Stock; Rate.Companion.Categories.Bonds; Rate.Companion.Categories.Other}
-//                1 -> List(1){Rate.Companion.Categories.Fiat}
-//                2 -> List(1){Rate.Companion.Categories.Crypto}
-//                3 -> List(1){Rate.Companion.Categories.Stock}
-//                4 -> List(1){Rate.Companion.Categories.Bonds}
-//                5 -> List(2){Rate.Companion.Categories.Stock; Rate.Companion.Categories.Bonds}
-//                6 -> List(1){Rate.Companion.Categories.Other}
-//                else -> List(5){Rate.Companion.Categories.Fiat; Rate.Companion.Categories.Crypto; Rate.Companion.Categories.Stock; Rate.Companion.Categories.Bonds; Rate.Companion.Categories.Other}
+//            val array :List<Price.Companion.Categories> = when(position){
+//                0 -> List(5){Price.Companion.Categories.Fiat; Price.Companion.Categories.Crypto; Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds; Price.Companion.Categories.Other}
+//                1 -> List(1){Price.Companion.Categories.Fiat}
+//                2 -> List(1){Price.Companion.Categories.Crypto}
+//                3 -> List(1){Price.Companion.Categories.Stock}
+//                4 -> List(1){Price.Companion.Categories.Bonds}
+//                5 -> List(2){Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds}
+//                6 -> List(1){Price.Companion.Categories.Other}
+//                else -> List(5){Price.Companion.Categories.Fiat; Price.Companion.Categories.Crypto; Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds; Price.Companion.Categories.Other}
 //            }
 //            mainViewModel.categories.value = array
 //        }

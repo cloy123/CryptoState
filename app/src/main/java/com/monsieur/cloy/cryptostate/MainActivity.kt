@@ -3,14 +3,13 @@ package com.monsieur.cloy.cryptostate
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.ActivityMainBinding
 import com.monsieur.cloy.cryptostate.ui.main.MainFragment
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
 import com.monsieur.cloy.cryptostate.utilits.backButton
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
-import com.monsieur.cloy.cryptostate.viewModels.RatesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         APP_ACTIVITY = this
         replaceFragment(MainFragment(), false)
-        val viewModel = ViewModelProvider(this).get(RatesViewModel::class.java)
-        viewModel.loadRates()
+        val viewModel = ViewModelProvider(this).get(PricesViewModel::class.java)
+        viewModel.loadPrices()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

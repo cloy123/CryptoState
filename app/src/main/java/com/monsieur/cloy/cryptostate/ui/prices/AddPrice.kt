@@ -1,4 +1,4 @@
-package com.monsieur.cloy.cryptostate.ui.rates
+package com.monsieur.cloy.cryptostate.ui.prices
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.monsieur.cloy.cryptostate.databinding.FragmentAddRateBinding
-import com.monsieur.cloy.cryptostate.model.Rates.Rate
+import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
+import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.utilits.*
-import com.monsieur.cloy.cryptostate.viewModels.RatesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
 import org.jsoup.Connection
 
-class AddRate : Fragment() {
+class AddPrice : Fragment() {
 
-    private lateinit var _binding: FragmentAddRateBinding
+    private lateinit var _binding: FragmentAddPriceBinding
     private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +25,7 @@ class AddRate : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAddRateBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentAddPriceBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -42,8 +42,8 @@ class AddRate : Fragment() {
                 showToast("Поле символ - пусто")
                 return@setOnClickListener
             }else{
-                val viewModel = ViewModelProvider(requireActivity()).get(RatesViewModel::class.java)
-                viewModel.addRate(Rate(binding.symbol.text.trim().toString(), spinnerTextToCurrency(), spinnerTextToCategory()))
+                val viewModel = ViewModelProvider(requireActivity()).get(PricesViewModel::class.java)
+                viewModel.addPrice(Price(binding.symbol.text.trim().toString(), spinnerTextToCurrency(), spinnerTextToCategory()))
                 backButton()
             }
         }

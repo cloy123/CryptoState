@@ -5,12 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentAssetsBinding
-import com.monsieur.cloy.cryptostate.databinding.FragmentRatesBinding
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Assets.Assets
-import com.monsieur.cloy.cryptostate.ui.rates.RatesRecyclerAdapter
 import com.monsieur.cloy.cryptostate.utilits.Categories
 import com.monsieur.cloy.cryptostate.utilits.Currency
 
@@ -50,8 +47,8 @@ class PageAssets : Fragment() {
     private fun initRecyclerAdapter(){
         recyclerAdapter = AssetsRecyclerAdapter()
         binding.recyclerView.adapter = recyclerAdapter
-//        if(viewModel.rates.value != null && !viewModel.rates.value!!.isEmpty()){
-//            recyclerAdapter.setItems(viewModel.rates.value!!)
+//        if(viewModel.prices.value != null && !viewModel.prices.value!!.isEmpty()){
+//            recyclerAdapter.setItems(viewModel.prices.value!!)
 //        }
     }
 

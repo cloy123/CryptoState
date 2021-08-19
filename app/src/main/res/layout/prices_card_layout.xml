@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/mainRate"
+                android:id="@+id/mainPrice"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="20dp"
@@ -79,12 +79,12 @@
                     android:text="/RUB"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/rate_rub"
+                    app:layout_constraintEnd_toStartOf="@+id/price_rub"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/rate_rub"
+                    android:id="@+id/price_rub"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -107,12 +107,12 @@
                     android:text="/USD"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/rate_usd"
+                    app:layout_constraintEnd_toStartOf="@+id/price_usd"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/rate_usd"
+                    android:id="@+id/price_usd"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -135,12 +135,12 @@
                     android:text="/EUR"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/rate_eur"
+                    app:layout_constraintEnd_toStartOf="@+id/price_eur"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/rate_eur"
+                    android:id="@+id/price_eur"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -163,12 +163,12 @@
                     android:text="/UAH"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/rate_uah"
+                    app:layout_constraintEnd_toStartOf="@+id/price_uah"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/rate_uah"
+                    android:id="@+id/price_uah"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"

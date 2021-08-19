@@ -1,4 +1,4 @@
-package com.monsieur.cloy.cryptostate.ui.rates
+package com.monsieur.cloy.cryptostate.ui.prices
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -12,13 +12,13 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
-import com.monsieur.cloy.cryptostate.model.Rates.Rates
+import com.monsieur.cloy.cryptostate.model.Prices.Prices
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.viewModels.RatesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
 
-class RatesRecyclerAdapter() : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHolder>() {
+class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewHolder>() {
 
-    private var items: Rates? = null
+    private var items: Prices? = null
 
     fun getSize() : Int {
             return if(items != null){
@@ -29,13 +29,13 @@ class RatesRecyclerAdapter() : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHol
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(items : Rates){
+    fun setItems(items : Prices){
         this.items = items
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.rates_card_layout, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.prices_card_layout, parent, false)
         return ViewHolder(v)
     }
 
@@ -43,11 +43,11 @@ class RatesRecyclerAdapter() : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHol
         if(items != null && items!!.items.size > 0){
             val item = items!!.items[position]
             holder.symbol.text = item.symbol
-            holder.eurRate.text = item.rateEUR.toString()
-            holder.rubRate.text = item.rateRUB.toString()
-            holder.uahRate.text = item.rateUAH.toString()
-            holder.usdRate.text = item.rateUSD.toString()
-            holder.mainRate.text = item.getMainRate().toString()
+            holder.eurPrice.text = item.priceEUR.toString()
+            holder.rubPrice.text = item.priceRUB.toString()
+            holder.uahPrice.text = item.priceUAH.toString()
+            holder.usdPrice.text = item.priceUSD.toString()
+            holder.mainPrice.text = item.getMainPrice().toString()
             holder.card.setOnClickListener {
                 if(holder.isOpen){
                     holder.hiddenLayout.visibility = View.GONE
@@ -59,9 +59,9 @@ class RatesRecyclerAdapter() : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHol
             }
             holder.delete.setOnClickListener {
                 Toast.makeText(APP_ACTIVITY, "delete", Toast.LENGTH_SHORT).show()
-                val viewModel = ViewModelProvider(APP_ACTIVITY).get(RatesViewModel::class.java)
-                if(!viewModel.removeRate(items!!.items[position])){
-                    Log.d("myExeptions", "Ошибка при удалении Rate")
+                val viewModel = ViewModelProvider(APP_ACTIVITY).get(PricesViewModel::class.java)
+                if(!viewModel.removePrice(items!!.items[position])){
+                    Log.d("myExeptions", "Ошибка при удалении Price")
                 }
             }
         }
@@ -77,11 +77,11 @@ class RatesRecyclerAdapter() : RecyclerView.Adapter<RatesRecyclerAdapter.ViewHol
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var symbol: TextView = itemView.findViewById(R.id.symbol)
-        var mainRate: TextView = itemView.findViewById(R.id.mainRate)
-        var rubRate: TextView = itemView.findViewById(R.id.rate_rub)
-        var usdRate: TextView = itemView.findViewById(R.id.rate_usd)
-        var eurRate: TextView = itemView.findViewById(R.id.rate_eur)
-        var uahRate: TextView = itemView.findViewById(R.id.rate_uah)
+        var mainPrice: TextView = itemView.findViewById(R.id.mainPrice)
+        var rubPrice: TextView = itemView.findViewById(R.id.price_rub)
+        var usdPrice: TextView = itemView.findViewById(R.id.price_usd)
+        var eurPrice: TextView = itemView.findViewById(R.id.price_eur)
+        var uahPrice: TextView = itemView.findViewById(R.id.price_uah)
         var card: CardView = itemView.findViewById(R.id.card)
         var delete: TextView = itemView.findViewById(R.id.delete)
         var hiddenLayout: LinearLayout = itemView.findViewById(R.id.hidden_layout)

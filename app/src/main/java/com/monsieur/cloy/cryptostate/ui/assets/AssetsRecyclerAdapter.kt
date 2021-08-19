@@ -1,7 +1,6 @@
 package com.monsieur.cloy.cryptostate.ui.assets
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Assets.Assets
-import com.monsieur.cloy.cryptostate.model.Rates.Rates
-import com.monsieur.cloy.cryptostate.ui.rates.RatesRecyclerAdapter
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.viewModels.RatesViewModel
 
 class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewHolder>()  {
 
