@@ -35,7 +35,9 @@ class MainViewModel: ViewModel() {
 
     fun refresh(){
         GlobalScope.launch {
-
+            if(updateUsdPrices() && updatePrices() && updateAssets()){
+                Log.d("text", "Complete refresh")
+            }
         }
     }
 
@@ -56,7 +58,7 @@ class MainViewModel: ViewModel() {
             }
             return false
         }
-        Log.d("text", "Complete")
+        Log.d("text", "Complete update prices")
         GlobalScope.launch(Dispatchers.Main){
             prices.value = newPrice
         }
@@ -64,7 +66,22 @@ class MainViewModel: ViewModel() {
     }
 
     private fun updateAssets(): Boolean{
-        return true//TODO
+        if(assets.value == null || assets.value!!.items.size == 0 || prices.value != null){
+            return false
+        }
+        val newAssets = assets.value!!
+        newAssets.updateAssets(prices.value!!)
+        if(newAssets.ifLastUpdateError){
+            GlobalScope.launch(Dispatchers.Main){
+                showToast("Ошибка при обновлении данных активов")
+            }
+            return false
+        }
+        Log.d("text", "Complete update assets")
+        GlobalScope.launch(Dispatchers.Main){
+            assets.value = newAssets
+        }
+        return true
     }
 
     fun removePrice(price: Price): Boolean {

@@ -1,6 +1,7 @@
 package com.monsieur.cloy.cryptostate.model.Prices
 
 import android.util.Log
+import com.monsieur.cloy.cryptostate.utilits.Currency
 import com.monsieur.cloy.cryptostate.utilits.url
 import org.jsoup.Jsoup
 
@@ -30,6 +31,23 @@ class UsdPrices {
                 Log.d("myExeptions", "ошибка в UsdPrices.kt в UpdateUsdUahPrice")
             }
             return false
+        }
+    }
+
+    fun convert(from: Currency, to: Currency, asset: Float): Float{
+        var result = when(from){
+            Currency.RUB -> asset / priceUsdRub
+            Currency.USD -> asset
+            Currency.EUR -> asset / priceUsdEur
+            Currency.UAH -> asset / priceUsdUah
+            else -> asset
+        }
+        return when(to){
+            Currency.USD -> result
+            Currency.EUR -> result * priceUsdEur
+            Currency.RUB -> result * priceUsdRub
+            Currency.UAH -> result * priceUsdUah
+            else -> result
         }
     }
 
