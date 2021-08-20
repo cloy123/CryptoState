@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.utilits.*
-import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 import org.jsoup.Connection
 
 class AddPrice : Fragment() {
@@ -29,8 +29,6 @@ class AddPrice : Fragment() {
         return binding.root
     }
 
-    var connection : Connection? = null
-
     override fun onStart() {
         super.onStart()
         addHomeButton()
@@ -42,7 +40,7 @@ class AddPrice : Fragment() {
                 showToast("Поле символ - пусто")
                 return@setOnClickListener
             }else{
-                val viewModel = ViewModelProvider(requireActivity()).get(PricesViewModel::class.java)
+                val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
                 viewModel.addPrice(Price(binding.symbol.text.trim().toString(), spinnerTextToCurrency(), spinnerTextToCategory()))
                 backButton()
             }

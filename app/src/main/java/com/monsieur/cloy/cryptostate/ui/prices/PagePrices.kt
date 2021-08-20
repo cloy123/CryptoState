@@ -11,13 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.FragmentPricesBinding
 import com.monsieur.cloy.cryptostate.utilits.addHomeButton
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
-import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class PagePrices : Fragment() {
 
     private var _binding: FragmentPricesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: PricesViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var recyclerAdapter: PricesRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +32,8 @@ class PagePrices : Fragment() {
     }
 
     private fun initViewModel(){
-        viewModel = ViewModelProvider(requireActivity()).get(PricesViewModel::class.java)
-        viewModel.prices.observe(this, Observer {
+        viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        viewModel.prices.observe(viewLifecycleOwner, Observer {
             recyclerAdapter.setItems(it)
             Toast.makeText(context, recyclerAdapter.getSize().toString(), Toast.LENGTH_SHORT).show()
         })
@@ -44,7 +44,7 @@ class PagePrices : Fragment() {
             replaceFragment(AddPrice())
             addHomeButton()
         }
-        binding.refresh.setOnClickListener { viewModel.updatePrices() }
+        binding.refresh.setOnClickListener { viewModel.refresh() }
         initRecyclerAdapter()
     }
 

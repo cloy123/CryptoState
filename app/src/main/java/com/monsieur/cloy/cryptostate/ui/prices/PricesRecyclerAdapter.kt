@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Prices.Prices
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewHolder>() {
 
@@ -59,7 +59,7 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
             }
             holder.delete.setOnClickListener {
                 Toast.makeText(APP_ACTIVITY, "delete", Toast.LENGTH_SHORT).show()
-                val viewModel = ViewModelProvider(APP_ACTIVITY).get(PricesViewModel::class.java)
+                val viewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
                 if(!viewModel.removePrice(items!!.items[position])){
                     Log.d("myExeptions", "Ошибка при удалении Price")
                 }

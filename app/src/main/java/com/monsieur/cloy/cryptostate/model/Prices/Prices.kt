@@ -8,9 +8,9 @@ class Prices {
     var ifLastUpdateError = false
     var usdPrices: UsdPrices = UsdPrices()
 
-    fun updatePrices(){
+    fun updatePrices(usdPrices: UsdPrices){
         ifLastUpdateError = false
-        usdPrices.updateUsdPrices()
+        this.usdPrices = usdPrices
         if(usdPrices.ifLastUpdateError){
             ifLastUpdateError = true
             Log.d("myExeptions", "usdPrices")

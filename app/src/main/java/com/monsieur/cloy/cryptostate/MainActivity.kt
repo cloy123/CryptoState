@@ -9,7 +9,7 @@ import com.monsieur.cloy.cryptostate.ui.main.MainFragment
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
 import com.monsieur.cloy.cryptostate.utilits.backButton
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
-import com.monsieur.cloy.cryptostate.viewModels.PricesViewModel
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,8 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         APP_ACTIVITY = this
         replaceFragment(MainFragment(), false)
-        val viewModel = ViewModelProvider(this).get(PricesViewModel::class.java)
-        viewModel.loadPrices()
+        val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.loadData()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
