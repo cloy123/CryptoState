@@ -6,7 +6,7 @@ import org.jsoup.Jsoup
 import com.monsieur.cloy.cryptostate.utilits.Currency
 import com.monsieur.cloy.cryptostate.utilits.Categories
 
-class Price(var symbol: String, private var mainCurrency: Currency, var category: Categories) {
+class Price(var symbol: String, var mainCurrency: Currency, var category: Categories) {
 
     var ifLastUpdateError: Boolean = false
 

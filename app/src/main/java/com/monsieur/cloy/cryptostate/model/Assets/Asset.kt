@@ -5,7 +5,7 @@ import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
 import com.monsieur.cloy.cryptostate.utilits.Categories
 import com.monsieur.cloy.cryptostate.utilits.Currency
 
-class Asset(var asset: String, var symbol: String, val categories: Categories, var mainCurrency: Currency) {
+class Asset(var asset: String, var symbol: String, var mainCurrency: Currency) {
 
     var depositedQuantityMainCurrency = 0f
     var mainQuantity: Float = 0f
@@ -16,7 +16,6 @@ class Asset(var asset: String, var symbol: String, val categories: Categories, v
     var averagePrice: Float = 0f
     var change: Float = 0f
     var changeInUsd = 0f
-
 
     fun buy(quantity: Float, buyPrice: Float, price:  Price){
         depositedQuantityMainCurrency += quantity*buyPrice
@@ -36,10 +35,10 @@ class Asset(var asset: String, var symbol: String, val categories: Categories, v
         quantityEUR = price.priceEUR * mainQuantity
         quantityRUB = price.priceRUB * mainQuantity
         quantityUAH = price.priceUAH * mainQuantity
-        change = getMainPrice() - depositedQuantityMainCurrency
+        change = getMainPrice(price.mainCurrency) - depositedQuantityMainCurrency
     }
 
-    fun getMainPrice(): Float {
+    fun getMainPrice(mainCurrency: Currency): Float {
         return when (mainCurrency) {
             Currency.RUB -> quantityRUB
             Currency.USD -> quantityUSD

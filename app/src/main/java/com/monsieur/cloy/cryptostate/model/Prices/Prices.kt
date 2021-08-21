@@ -39,4 +39,13 @@ class Prices {
         }
         return true
     }
+
+    fun findPrice(symbol: String):Price?{
+        for(price in items){
+            if(price.symbol == symbol){
+                return price
+            }
+        }
+        return null
+    }
 }

@@ -33,7 +33,7 @@ class Assets {
         changeEUR = 0f
         changeUAH = 0f
         for (asset in items){
-            val price = findPrice(prices, asset.symbol)
+            val price = prices.findPrice(asset.symbol)
             if(price != null){
                 asset.update(price)
             }else{
@@ -48,15 +48,18 @@ class Assets {
             changeRUB += prices.usdPrices.convert(asset.mainCurrency, Currency.RUB, asset.change)
             changeEUR += prices.usdPrices.convert(asset.mainCurrency, Currency.EUR, asset.change)
             changeUAH += prices.usdPrices.convert(asset.mainCurrency, Currency.UAH, asset.change)
+            Log.d("text", "quantityRUB = $quantityRUB")
         }
     }
 
-    private fun findPrice(prices: Prices, symbol: String):Price?{
-        for(price in prices.items){
-            if(price.symbol == symbol){
-                return price
-            }
+    fun remove(asset: Asset): Boolean{
+        return items.remove(asset)
+    }
+
+    fun isEmpty():Boolean{
+        if(items.size > 0){
+            return false
         }
-        return null
+        return true
     }
 }

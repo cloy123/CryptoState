@@ -5,10 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.R
+import com.monsieur.cloy.cryptostate.databinding.FragmentAddAssetBinding
+import com.monsieur.cloy.cryptostate.model.Assets.Asset
+import com.monsieur.cloy.cryptostate.utilits.addHomeButton
+import com.monsieur.cloy.cryptostate.utilits.backButton
+import com.monsieur.cloy.cryptostate.utilits.showToast
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
+import java.util.ArrayList
 
 class AddAsset : Fragment() {
 
+    private lateinit var _binding: FragmentAddAssetBinding
+    private val binding get() = _binding
+    private val pricesArray = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +30,40 @@ class AddAsset : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_asset, container, false)
+        _binding = FragmentAddAssetBinding.inflate(inflater, container, false)
+        getPricesArray()
+        return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = AddAsset()
+    override fun onStart() {
+        super.onStart()
+        addHomeButton()
+        val arrayAdapter = context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item, pricesArray) }
+        binding.spinnerCurrency.adapter = arrayAdapter
+        binding.spinnerCurrency.setSelection(0)
+
+        binding.saveButton.setOnClickListener {
+            if(binding.assetName.text.trim().isEmpty()){
+                showToast("Поле Название - пусто")
+            }
+            val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+            viewModel.saveAsset(binding.assetName.text.toString(), pricesArray[binding.spinnerCurrency.selectedItemPosition])
+            backButton()
+        }
+
+        binding.cancelButton.setOnClickListener {
+            backButton()
+        }
+
+    }
+
+    fun getPricesArray(){
+        val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        val prices = viewModel.prices.value
+        if (prices != null) {
+            for (price in prices.items){
+                pricesArray.add(price.symbol)
+            }
+        }
     }
 }

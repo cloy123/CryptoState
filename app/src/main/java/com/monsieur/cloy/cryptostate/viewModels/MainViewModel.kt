@@ -22,6 +22,7 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.util.concurrent.BlockingDeque
 
 class MainViewModel: ViewModel() {
 
@@ -35,9 +36,50 @@ class MainViewModel: ViewModel() {
 
     fun refresh(){
         GlobalScope.launch {
-            if(updateUsdPrices() && updatePrices() && updateAssets()){
-                Log.d("text", "Complete refresh")
+            if(updateUsdPrices()){
+                Log.d("text", "Complete updateUsdPrices")
+                if(updatePrices()){
+                    Log.d("text", "Complete updatePrices")
+                    if(updateAssets()){
+                        Log.d("text", "Complete updateAssets")
+                    }
+                }
             }
+        }
+    }
+
+    fun saveAsset(asset: Asset){
+        val newAssets = assets.value!!
+            for(i in 0 until newAssets.items.size){
+                if(newAssets.items[i].asset == asset.asset && newAssets.items[i].symbol == asset.symbol){
+                    newAssets.items[i] = asset
+                    assets.value = newAssets
+                    saveData()
+                    return
+                }
+            }
+        newAssets.items.add(asset)
+        assets.value = newAssets
+        saveData()
+    }
+
+    fun saveAsset(assetName: String, priceSymbol: String){
+        val price = prices.value?.findPrice(priceSymbol)
+        val newAsset = price?.let { Asset(assetName, priceSymbol, it.mainCurrency) }
+        if (newAsset != null) {
+            saveAsset(newAsset)
+        }
+    }
+
+    fun removeAsset(asset: Asset): Boolean{
+        val newAssets = assets.value
+        val result = newAssets?.remove(asset)
+        assets.value = newAssets
+        return if (result == true) {
+            saveData()
+            true
+        } else {
+            false
         }
     }
 
@@ -66,7 +108,7 @@ class MainViewModel: ViewModel() {
     }
 
     private fun updateAssets(): Boolean{
-        if(assets.value == null || assets.value!!.items.size == 0 || prices.value != null){
+        if(assets.value == null || assets.value!!.items.size == 0 || prices.value == null){
             return false
         }
         val newAssets = assets.value!!
@@ -75,6 +117,7 @@ class MainViewModel: ViewModel() {
             GlobalScope.launch(Dispatchers.Main){
                 showToast("Ошибка при обновлении данных активов")
             }
+            Log.d("myExeptions", "error update assets")
             return false
         }
         Log.d("text", "Complete update assets")
@@ -134,8 +177,10 @@ class MainViewModel: ViewModel() {
 
         fun loadData(): Boolean{
             if(!getDataFromJson()){
-                prices.value = Prices()
-                assets.value = Assets()
+                GlobalScope.launch(Dispatchers.Main) {
+                    prices.value = Prices()
+                    assets.value = Assets()
+                }
                 return false
             }
             return true
@@ -157,8 +202,10 @@ class MainViewModel: ViewModel() {
                 streamReader = InputStreamReader(fileInputStream)
                 val gson = Gson()
                 val dataItems: DataItems = gson.fromJson(streamReader, DataItems::class.java)
-                prices.value = dataItems.prices
-                assets.value = dataItems.assets
+                GlobalScope.launch(Dispatchers.Main) {
+                    prices.value = dataItems.prices
+                    assets.value = dataItems.assets
+                }
                 return true
             }catch (e:Exception){
                 e.message?.let { Log.d("myExeption", it) }
@@ -183,6 +230,7 @@ class MainViewModel: ViewModel() {
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()
+                e.message?.let { Log.d("myExeptions", "$it  ошибка при сохранении") }
             } finally {
                 closeFileOutputStream()
             }

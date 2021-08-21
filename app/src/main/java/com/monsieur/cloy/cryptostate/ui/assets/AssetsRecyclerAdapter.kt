@@ -1,6 +1,7 @@
 package com.monsieur.cloy.cryptostate.ui.assets
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Assets.Assets
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
+import com.monsieur.cloy.cryptostate.utilits.replaceFragment
+import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewHolder>()  {
 
     private var items: Assets? = null
+    private var viewModel: MainViewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(items : Assets){
@@ -58,9 +63,18 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
                 }
             }
 
+            holder.delete.setOnClickListener {
+                Toast.makeText(APP_ACTIVITY, "delete", Toast.LENGTH_SHORT).show()
+                if(!viewModel.removeAsset(items!!.items[position])){
+                    Log.d("myExeptions", "Ошибка при удалении Asset")
+                }
+            }
+
             holder.edit.setOnClickListener {
-                Toast.makeText(APP_ACTIVITY, "edit", Toast.LENGTH_SHORT).show()
-                //TODO окно изменения
+                val price = viewModel.prices.value?.findPrice(item.symbol)
+                if(price != null){
+                    replaceFragment(EditAsset(item, price))
+                }
             }
         }
     }
@@ -85,6 +99,7 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
         var change: TextView = itemView.findViewById(R.id.change)
         var card: CardView = itemView.findViewById(R.id.card)
         var edit: TextView = itemView.findViewById(R.id.edit)
+        var delete: TextView = itemView.findViewById(R.id.delete)
         var hiddenLayout: LinearLayout = itemView.findViewById(R.id.hidden_layout)
         var isOpen = false
     }

@@ -34,6 +34,7 @@ class MainFragment : Fragment() {
 
     private fun initFunc(){
         createViewPager()
+        binding.refresh.setOnClickListener { mainViewModel.refresh() }
 //        binding.spinner.setOnItemClickListener { _, _, position, _ ->
 //            val array :List<Price.Companion.Categories> = when(position){
 //                0 -> List(5){Price.Companion.Categories.Fiat; Price.Companion.Categories.Crypto; Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds; Price.Companion.Categories.Other}

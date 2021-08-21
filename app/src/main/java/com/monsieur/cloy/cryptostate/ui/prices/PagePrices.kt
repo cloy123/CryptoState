@@ -44,7 +44,6 @@ class PagePrices : Fragment() {
             replaceFragment(AddPrice())
             addHomeButton()
         }
-        binding.refresh.setOnClickListener { viewModel.refresh() }
         initRecyclerAdapter()
     }
 
