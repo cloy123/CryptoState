@@ -36,15 +36,16 @@ class MainViewModel: ViewModel() {
 
     fun refresh(){
         GlobalScope.launch {
-            if(updateUsdPrices()){
+            if(updateUsdPrices()) {
                 Log.d("text", "Complete updateUsdPrices")
-                if(updatePrices()){
-                    Log.d("text", "Complete updatePrices")
-                    if(updateAssets()){
-                        Log.d("text", "Complete updateAssets")
-                    }
-                }
             }
+            if(updatePrices()) {
+                Log.d("text", "Complete updatePrices")
+            }
+            if(updateAssets()){
+                Log.d("text", "Complete updateAssets")
+            }
+            saveData()
         }
     }
 
@@ -92,19 +93,21 @@ class MainViewModel: ViewModel() {
         if(prices.value == null || prices.value!!.items.size == 0){
             return false
         }
+        var result = true
         val newPrice = prices.value!!
         newPrice.updatePrices(usdPrices)
         if(newPrice.ifLastUpdateError){
             GlobalScope.launch(Dispatchers.Main){
                 showToast("Ошибка при обновлении данных курсов")
             }
-            return false
+            Log.d("text", "error update prices")
+            result = false
         }
         Log.d("text", "Complete update prices")
         GlobalScope.launch(Dispatchers.Main){
             prices.value = newPrice
         }
-        return true
+        return result
     }
 
     private fun updateAssets(): Boolean{
@@ -161,7 +164,7 @@ class MainViewModel: ViewModel() {
 
     fun saveData(){
         GlobalScope.launch {
-            if (dataController.saveData()) {
+            if (!dataController.saveData()) {
                 Log.d("myExeptions", "ошибка при сохрнении Prices")
             }
         }

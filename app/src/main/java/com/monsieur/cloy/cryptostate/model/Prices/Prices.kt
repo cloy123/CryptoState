@@ -11,17 +11,11 @@ class Prices {
     fun updatePrices(usdPrices: UsdPrices){
         ifLastUpdateError = false
         this.usdPrices = usdPrices
-        if(usdPrices.ifLastUpdateError){
-            ifLastUpdateError = true
-            Log.d("myExeptions", "usdPrices")
-            return
-        }else{
-            for(price in items){
-                price.UpdateCurrency(usdPrices)
-                if(price.ifLastUpdateError){
-                    ifLastUpdateError = true
-                    Log.d("myExeptions", price.symbol)
-                }
+        for(price in items){
+            price.UpdateCurrency(usdPrices)
+            if(price.ifLastUpdateError){
+                ifLastUpdateError = true
+                Log.d("myExeptions", price.symbol)
             }
         }
     }

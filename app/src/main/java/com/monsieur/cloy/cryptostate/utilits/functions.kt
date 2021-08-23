@@ -44,3 +44,11 @@ fun backButton(){
 fun showToast(message: String){
     Toast.makeText(APP_ACTIVITY, message, Toast.LENGTH_LONG).show()
 }
+
+fun getElement(url: String): String{
+    return when(url){
+        urlGoogleFinance -> elementGoogleFinance
+        urlYahooFinance -> elementYahooFinance
+        else -> elementYahooFinance
+    }
+}

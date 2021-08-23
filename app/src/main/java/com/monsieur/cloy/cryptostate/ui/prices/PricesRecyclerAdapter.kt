@@ -47,6 +47,8 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
             holder.rubPrice.text = item.priceRUB.toString()
             holder.uahPrice.text = item.priceUAH.toString()
             holder.usdPrice.text = item.priceUSD.toString()
+            holder.url.text = item.url
+            holder.symbolName.text = item.symbolName
             holder.mainPrice.text = item.getMainPrice().toString()
             holder.card.setOnClickListener {
                 if(holder.isOpen){
@@ -77,6 +79,8 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var symbol: TextView = itemView.findViewById(R.id.symbol)
+        var symbolName: TextView = itemView.findViewById(R.id.symbolName)
+        var url: TextView = itemView.findViewById(R.id.url)
         var mainPrice: TextView = itemView.findViewById(R.id.mainPrice)
         var rubPrice: TextView = itemView.findViewById(R.id.price_rub)
         var usdPrice: TextView = itemView.findViewById(R.id.price_usd)

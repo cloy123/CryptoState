@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">CryptoState</string>
 
-    <string name="url">https://www.google.com/finance/quote/</string>
+    <string name="urlGoogleFinance">https://www.google.com/finance/quote/</string>
+    <string name="urlYahooFinance">https://finance.yahoo.com/quote/</string>
+    <string-array name="sites">
+        <item>https://www.google.com/finance/quote/</item>
+        <item>https://finance.yahoo.com/quote/</item>
+    </string-array>
+
 
     <string name="page_courses_name">Курсы</string>
     <string name="page_my_assets_state_name">Активы</string>

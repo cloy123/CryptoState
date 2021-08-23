@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.utilits.*
@@ -36,16 +37,27 @@ class AddPrice : Fragment() {
             backButton()
         }
         binding.addButton.setOnClickListener {
-            if(binding.symbol.text.trim().isEmpty()){
+            if(binding.symbol.text.trim().isEmpty() || binding.symbolName.text.trim().isEmpty()){
                 showToast("Поле символ - пусто")
                 return@setOnClickListener
             }else{
                 val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-                viewModel.addPrice(Price(binding.symbol.text.trim().toString(), spinnerTextToCurrency(), spinnerTextToCategory()))
+                val site = resources.getStringArray(R.array.sites)[ binding.spinnerUrl.selectedItemPosition]
+                val element = getElement(site)
+                viewModel.addPrice(
+                    Price(
+                        binding.symbol.text.trim().toString(),
+                        binding.symbolName.text.trim().toString(),
+                        spinnerTextToCurrency(),
+                        spinnerTextToCategory(),
+                        site,
+                        element))
                 backButton()
             }
         }
     }
+
+
 
     private fun spinnerTextToCurrency(): Currency{
         return when(binding.spinnerCurrency.selectedItemId.toInt()){

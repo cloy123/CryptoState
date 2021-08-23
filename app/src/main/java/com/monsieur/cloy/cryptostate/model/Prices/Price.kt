@@ -1,12 +1,11 @@
 package com.monsieur.cloy.cryptostate.model.Prices
 
 import android.util.Log
-import com.monsieur.cloy.cryptostate.utilits.url
 import org.jsoup.Jsoup
 import com.monsieur.cloy.cryptostate.utilits.Currency
 import com.monsieur.cloy.cryptostate.utilits.Categories
 
-class Price(var symbol: String, var mainCurrency: Currency, var category: Categories) {
+class Price(var symbol: String, var symbolName: String, var mainCurrency: Currency, var category: Categories, val url: String, val element: String) {
 
     var ifLastUpdateError: Boolean = false
 
@@ -66,8 +65,9 @@ class Price(var symbol: String, var mainCurrency: Currency, var category: Catego
     fun UpdateMainCurrency() {
         try {
             val doc = Jsoup.connect(url + symbol).get().body()
-            var priceText = doc.select("div[class=YMlKec fxKbKc]").text()
-            priceText = priceText.replace(",", "")
+            var priceText = doc.select(element).text()
+            priceText = priceText.replace("[^0-9.]".toRegex(), "")
+
             setMainPrice(priceText.toFloat())
             Log.d("text", "setMainPrice = $priceText")
             ifLastUpdateError = false

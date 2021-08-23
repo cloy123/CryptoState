@@ -2,7 +2,8 @@ package com.monsieur.cloy.cryptostate.model.Prices
 
 import android.util.Log
 import com.monsieur.cloy.cryptostate.utilits.Currency
-import com.monsieur.cloy.cryptostate.utilits.url
+import com.monsieur.cloy.cryptostate.utilits.elementGoogleFinance
+import com.monsieur.cloy.cryptostate.utilits.urlGoogleFinance
 import org.jsoup.Jsoup
 
 class UsdPrices {
@@ -18,8 +19,8 @@ class UsdPrices {
 
     private fun updateUsdUahPrice(): Boolean{
         try {
-            val doc = Jsoup.connect(url + "USD-UAH").get().body()
-            var priceText = doc.select("div[class=YMlKec fxKbKc]").text()
+            val doc = Jsoup.connect(urlGoogleFinance + "USD-UAH").get().body()
+            var priceText = doc.select(elementGoogleFinance).text()
             priceText =  priceText.replace(",", "")
             priceUsdUah = priceText.toFloat()
             Log.d("text", "UsdUahPrice = $priceText")
@@ -53,8 +54,8 @@ class UsdPrices {
 
     private fun updateUsdEurPrice(): Boolean{
         try {
-            val doc = Jsoup.connect(url + "USD-EUR").get().body()
-            var priceText = doc.select("div[class=YMlKec fxKbKc]").text()
+            val doc = Jsoup.connect(urlGoogleFinance + "USD-EUR").get().body()
+            var priceText = doc.select(elementGoogleFinance).text()
             priceText =  priceText.replace(",", "")
             priceUsdEur = priceText.toFloat()
             Log.d("text", "UsdEurPrice = $priceText")
@@ -71,8 +72,8 @@ class UsdPrices {
 
     private fun updateUsdRubPrice(): Boolean{
         try {
-            val doc = Jsoup.connect(url + "USD-RUB").get().body()
-            var priceText = doc.select("div[class=YMlKec fxKbKc]").text()
+            val doc = Jsoup.connect(urlGoogleFinance + "USD-RUB").get().body()
+            var priceText = doc.select(elementGoogleFinance).text()
             priceText =  priceText.replace(",", "")
             priceUsdRub = priceText.toFloat()
             Log.d("text", "UsdRubPrice = $priceText")

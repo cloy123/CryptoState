@@ -6,73 +6,124 @@
     android:layout_height="match_parent"
     tools:context=".ui.prices.AddPrice">
 
-    <TextView
-        android:layout_margin="4dp"
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="Символ"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/symbol"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/symbol"
+
+    <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"/>
-
-    <EditText
-        android:layout_margin="4dp"
-        android:id="@+id/symbol"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_margin="4dp"
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Валюта"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@id/spinnerCurrency"
-        android:gravity="center"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Spinner
-        android:layout_margin="4dp"
-        android:id="@+id/spinnerCurrency"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/symbol"
-        android:entries="@array/currency"/>
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="Символ"
+            android:textSize="20sp"
+            android:layout_height="50dp"
+            android:gravity="center"/>
 
-    <TextView
-        android:layout_margin="4dp"
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Тип"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@id/spinnerCurrency"
-        android:gravity="center"/>
+        <EditText
+            android:id="@+id/symbol"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"/>
 
-    <Spinner
-        android:layout_margin="4dp"
-        android:id="@+id/spinnerCategory"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:entries="@array/categories_names"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="Название"
+            android:textSize="20sp"
+            android:layout_height="50dp"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/symbolName"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="Сайт"
+                android:textSize="20sp"
+                android:layout_height="50dp"
+                android:gravity="center"/>
+
+            <Spinner
+                android:id="@+id/spinnerUrl"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:entries="@array/sites"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:text="Валюта"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <Spinner
+                android:id="@+id/spinnerCurrency"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:entries="@array/currency"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:text="Тип"
+                android:textSize="20sp"
+                android:gravity="center"/>
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:entries="@array/categories_names"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
 
     <Button
         android:text="Добавить"
