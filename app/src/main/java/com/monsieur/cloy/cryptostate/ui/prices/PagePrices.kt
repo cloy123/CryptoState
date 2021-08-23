@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.FragmentPricesBinding
-import com.monsieur.cloy.cryptostate.utilits.addHomeButton
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
@@ -42,7 +41,6 @@ class PagePrices : Fragment() {
     private fun initFunc(){
         binding.add.setOnClickListener {
             replaceFragment(AddPrice())
-            addHomeButton()
         }
         initRecyclerAdapter()
     }

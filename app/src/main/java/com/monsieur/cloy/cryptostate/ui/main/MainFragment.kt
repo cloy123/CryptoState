@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.monsieur.cloy.cryptostate.databinding.FragmentMainBinding
-import com.monsieur.cloy.cryptostate.utilits.deleteHomeButton
+import com.monsieur.cloy.cryptostate.utilits.changeToolBar
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class MainFragment : Fragment() {
@@ -16,10 +16,6 @@ class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var mainViewModel: MainViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
@@ -34,25 +30,11 @@ class MainFragment : Fragment() {
 
     private fun initFunc(){
         createViewPager()
-        binding.refresh.setOnClickListener { mainViewModel.refresh() }
-//        binding.spinner.setOnItemClickListener { _, _, position, _ ->
-//            val array :List<Price.Companion.Categories> = when(position){
-//                0 -> List(5){Price.Companion.Categories.Fiat; Price.Companion.Categories.Crypto; Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds; Price.Companion.Categories.Other}
-//                1 -> List(1){Price.Companion.Categories.Fiat}
-//                2 -> List(1){Price.Companion.Categories.Crypto}
-//                3 -> List(1){Price.Companion.Categories.Stock}
-//                4 -> List(1){Price.Companion.Categories.Bonds}
-//                5 -> List(2){Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds}
-//                6 -> List(1){Price.Companion.Categories.Other}
-//                else -> List(5){Price.Companion.Categories.Fiat; Price.Companion.Categories.Crypto; Price.Companion.Categories.Stock; Price.Companion.Categories.Bonds; Price.Companion.Categories.Other}
-//            }
-//            mainViewModel.categories.value = array
-//        }
     }
 
     override fun onResume() {
         super.onResume()
-        deleteHomeButton()
+        changeToolBar(menu = true, homeButton = false, "")
     }
 
     private fun createViewPager(){

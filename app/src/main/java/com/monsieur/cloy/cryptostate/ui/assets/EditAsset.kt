@@ -12,8 +12,8 @@ import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
 import com.monsieur.cloy.cryptostate.databinding.FragmentEditAssetBinding
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Prices.Price
-import com.monsieur.cloy.cryptostate.utilits.addHomeButton
 import com.monsieur.cloy.cryptostate.utilits.backButton
+import com.monsieur.cloy.cryptostate.utilits.changeToolBar
 import com.monsieur.cloy.cryptostate.utilits.showToast
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
@@ -38,7 +38,7 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
     override fun onStart() {
         super.onStart()
         updateFields()
-        addHomeButton()
+        changeToolBar(menu = false, homeButton = true, "Изменить курс")
         binding.cancelButton.setOnClickListener {
             backButton()
         }

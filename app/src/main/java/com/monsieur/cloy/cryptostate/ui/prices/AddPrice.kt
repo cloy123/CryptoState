@@ -32,7 +32,7 @@ class AddPrice : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        addHomeButton()
+        changeToolBar(menu = false, homeButton = true, "Добавить курс")
         binding.cancelButton.setOnClickListener {
             backButton()
         }

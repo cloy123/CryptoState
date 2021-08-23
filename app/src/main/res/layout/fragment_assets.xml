@@ -24,9 +24,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="USD:"
+                    android:text="@string/usd"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/big_text" />
 
                 <TextView
                     android:id="@+id/usd"
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="1000" />
 
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="+100$$$$$" />
             </LinearLayout>
 
@@ -59,9 +59,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="RUB:"
+                    android:text="@string/rub"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/big_text" />
 
                 <TextView
                     android:id="@+id/rub"
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="1000" />
 
                 <TextView
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="+100$$$$$" />
 
             </LinearLayout>
@@ -94,9 +94,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="EUR:"
+                    android:text="@string/eur"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/big_text" />
 
                 <TextView
                     android:id="@+id/eur"
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="1000" />
 
                 <TextView
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="+100$$$$$" />
 
             </LinearLayout>
@@ -129,9 +129,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="UAH:"
+                    android:text="@string/uah"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/big_text" />
 
                 <TextView
                     android:id="@+id/uah"
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="1000" />
 
                 <TextView
@@ -148,21 +148,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/big_text"
                     tools:text="+100$$$$$" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                app:layout_constraintTop_toBottomOf="@id/uahLinear"
-                tools:text="Состояние: ТЫ в жопе дебил" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="8dp"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -170,7 +162,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/state" />
+                app:layout_constraintTop_toBottomOf="@+id/uahLinear" />
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -180,5 +172,6 @@
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_round_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

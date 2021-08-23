@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="card_layout_textViews">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="card_layout_textViews_buttons" parent="card_layout_textViews">
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+    <style name="Theme.CryptoState.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

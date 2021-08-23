@@ -11,7 +11,8 @@
 
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginVertical="10dp">
@@ -29,7 +30,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:textSize="20sp"
+                android:textSize="@dimen/big_text"
                 app:layout_constraintBottom_toTopOf="@id/symbol"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="20dp"
                 android:textAlignment="textEnd"
-                android:textSize="20sp"
+                android:textSize="@dimen/big_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/space"
                 app:layout_constraintTop_toTopOf="parent"
@@ -58,12 +59,12 @@
             <TextView
                 android:id="@+id/symbol"
                 tools:text="BTC/USD"
-                android:textSize="10sp"
+                android:textSize="@dimen/small_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/asset"
                 app:layout_constraintStart_toStartOf="@id/asset"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,120 +74,75 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/visible_layout"
             tools:visibility="visible">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="2dp">
 
                 <TextView
-                    android:id="@+id/rub"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="/RUB"
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/quantity_rub"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    style="@style/card_layout_textViews"
+                    android:text="@string/rub"/>
 
                 <TextView
                     android:id="@+id/quantity_rub"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/rub"
-                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/card_layout_textViews"
                     tools:text="655565465464564.6545" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="2dp">
 
                 <TextView
-                    android:id="@+id/usd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="/USD"
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/quantity_usd"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    style="@style/card_layout_textViews"
+                    android:text="@string/usd" />
 
                 <TextView
                     android:id="@+id/quantity_usd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/usd"
-                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/card_layout_textViews"
                     tools:text="655565465464564.6545" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="2dp">
 
                 <TextView
-                    android:id="@+id/eur"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="/EUR"
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/quantity_eur"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    style="@style/card_layout_textViews"
+                    android:text="@string/eur" />
 
                 <TextView
                     android:id="@+id/quantity_eur"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/eur"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="655565465464564.6545" />
+                    style="@style/card_layout_textViews"
+                    tools:text="65556564.6545" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp">
 
                 <TextView
-                    android:id="@+id/uah"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="/UAH"
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/quantity_uah"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    style="@style/card_layout_textViews"
+                    android:text="@string/uah" />
 
                 <TextView
                     android:id="@+id/quantity_uah"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/uah"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="655565465464564.6545" />
+                    style="@style/card_layout_textViews"
+                    tools:text="6555664.6545" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -194,24 +150,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="2dp">
 
-
-
                 <TextView
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="Средняя цена:"
-                    android:textAlignment="center"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:text="@string/average_price"
+                    style="@style/card_layout_textViews"/>
 
                 <TextView
                     android:id="@+id/averagePrice"
-                    android:textAlignment="center"
-                    tools:text="45000"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    style="@style/card_layout_textViews"
+                    tools:text="45000" />
 
             </LinearLayout>
 
@@ -221,59 +167,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="2dp">
 
-
-
                 <TextView
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="Изменение:"
-                    android:textAlignment="center"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    android:text="@string/change"
+                    style="@style/card_layout_textViews"/>
 
                 <TextView
                     android:id="@+id/change"
-                    android:textAlignment="center"
-                    tools:text="45000"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
+                    style="@style/card_layout_textViews"
+                    tools:text="45000" />
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp">
 
                 <TextView
                     android:id="@+id/edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Редактировать"
-                    android:textColor="@color/purple_500"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/delete"/>
+                    style="@style/card_layout_textViews_buttons"
+                    android:text="@string/edit" />
 
                 <TextView
                     android:id="@+id/delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Удалить"
-                    android:textColor="@color/purple_500"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/edit"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    style="@style/card_layout_textViews_buttons"
+                    android:text="@string/delete" />
+            </LinearLayout>
         </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

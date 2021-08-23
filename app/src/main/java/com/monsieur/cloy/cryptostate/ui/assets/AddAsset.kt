@@ -9,9 +9,8 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentAddAssetBinding
-import com.monsieur.cloy.cryptostate.model.Assets.Asset
-import com.monsieur.cloy.cryptostate.utilits.addHomeButton
 import com.monsieur.cloy.cryptostate.utilits.backButton
+import com.monsieur.cloy.cryptostate.utilits.changeToolBar
 import com.monsieur.cloy.cryptostate.utilits.showToast
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 import java.util.ArrayList
@@ -37,7 +36,7 @@ class AddAsset : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        addHomeButton()
+        changeToolBar(menu = false, homeButton = true, "Добавить актив")
         val arrayAdapter = context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item, pricesArray) }
         binding.spinnerCurrency.adapter = arrayAdapter
         binding.spinnerCurrency.setSelection(0)

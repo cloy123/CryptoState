@@ -21,16 +21,20 @@
         <TextView
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="Символ"
-            android:textSize="20sp"
+            android:text="@string/symbol"
+            android:textSize="@dimen/big_text"
             android:layout_height="50dp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/symbol"
+            android:textSize="@dimen/big_text"
+            android:maxLines="1"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:inputType="text"
+            android:hint="@string/symbol"/>
 
     </LinearLayout>
 
@@ -42,16 +46,20 @@
         <TextView
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:text="Название"
-            android:textSize="20sp"
+            android:text="@string/symbol_name"
+            android:textSize="@dimen/big_text"
             android:layout_height="50dp"
             android:gravity="center"/>
 
         <EditText
             android:id="@+id/symbolName"
             android:layout_weight="1"
+            android:maxLines="1"
+            android:textSize="@dimen/big_text"
             android:layout_width="0dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:inputType="text"
+            android:hint="@string/symbol_name"/>
 
     </LinearLayout>
 
@@ -63,8 +71,8 @@
             <TextView
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:text="Сайт"
-                android:textSize="20sp"
+                android:text="@string/site"
+                android:textSize="@dimen/big_text"
                 android:layout_height="50dp"
                 android:gravity="center"/>
 
@@ -86,8 +94,8 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Валюта"
-                android:textSize="20sp"
+                android:text="@string/currency"
+                android:textSize="@dimen/big_text"
                 android:gravity="center"/>
 
             <Spinner
@@ -107,8 +115,8 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Тип"
-                android:textSize="20sp"
+                android:text="@string/type"
+                android:textSize="@dimen/big_text"
                 android:gravity="center"/>
 
             <Spinner
@@ -126,21 +134,23 @@
 
 
     <Button
-        android:text="Добавить"
+        android:text="@string/add"
         android:layout_margin="4dp"
         android:id="@+id/add_button"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:textSize="@dimen/medium_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/cancel_button"/>
 
     <Button
-        android:text="Отмена"
+        android:text="@string/cancel"
         android:layout_margin="4dp"
         android:id="@+id/cancel_button"
         android:layout_width="0dp"
         android:layout_height="50dp"
+        android:textSize="@dimen/medium_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/add_button" />

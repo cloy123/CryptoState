@@ -1,8 +1,10 @@
 package com.monsieur.cloy.cryptostate.utilits
 
+import android.icu.text.CaseMap
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.monsieur.cloy.cryptostate.R
 
@@ -25,12 +27,27 @@ fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
     //APP_ACTIVITY.findViewById<ConstraintLayout>(R.id.container).visibility = View.VISIBLE
 }
 
-fun addHomeButton(){
+fun changeToolBar(menu: Boolean, homeButton: Boolean, title: String){
+    //APP_ACTIVITY.menuInflater.inflate(R.menu.main_fragment_menu, toolbarMenu)
+    if(toolbarMenu != null && toolbarMenu!!.children.count() > 0){
+        for(menuItem in toolbarMenu?.children!!){
+            menuItem.isVisible = menu
+        }
+    }
+    if(homeButton){
+        addHomeButton()
+    }else{
+        deleteHomeButton()
+    }
+    APP_ACTIVITY.supportActionBar?.title = title
+}
+
+private fun addHomeButton(){
     val actionBar = APP_ACTIVITY.supportActionBar
     actionBar?.setHomeButtonEnabled(true)
     actionBar?.setDisplayHomeAsUpEnabled(true)
 }
-fun deleteHomeButton(){
+private fun deleteHomeButton(){
     val actionBar = APP_ACTIVITY.supportActionBar
     actionBar?.setHomeButtonEnabled(false)
     actionBar?.setDisplayHomeAsUpEnabled(false)
