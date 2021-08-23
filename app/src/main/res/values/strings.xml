@@ -38,19 +38,18 @@
         <item>У.Е.</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete">Удалить</string>
     <string name="uah">/UAH</string>
     <string name="eur">/EUR</string>
     <string name="usd">/USD</string>
     <string name="rub">/RUB</string>
-    <string name="average_price">Средняя цена:</string>
-    <string name="change">Изменение:</string>
+    <string name="average_price">Средняя цена</string>
+    <string name="change">Изменение</string>
     <string name="edit">Редактировать</string>
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
-    <string name="symbol">Символ:</string>
-    <string name="symbol_name">Название:</string>
+    <string name="symbol">Символ</string>
+    <string name="symbol_name">Название</string>
     <string name="site">Сайт</string>
     <string name="currency">Валюта</string>
     <string name="type">Тип</string>
@@ -59,8 +58,14 @@
     <string name="quantity">Количество</string>
     <string name="price">Цена</string>
     <string name="add_purchase">Добавить покупку</string>
-    <string name="total_in_usd">Всего в USD:</string>
-    <string name="total">Всего:</string>
+    <string name="total_in_usd">Всего в USD</string>
+    <string name="total">Всего</string>
     <string name="refresh">Обновить</string>
     <string name="settings">Настройки</string>
+    <string name="add_asset_title">Добавить актив</string>
+    <string name="edit_asset_title">Изменить актив</string>
+    <string name="add_price_title">Добавить курс</string>
+    <string name="fields_not_filled">Не все поля заполнены</string>
+    <string name="error_updating_prices_data">Ошибка при обновлении данных курсов</string>
+    <string name="error_updating_assets_data">Ошибка при обновлении данных курсов</string>
 </resources>

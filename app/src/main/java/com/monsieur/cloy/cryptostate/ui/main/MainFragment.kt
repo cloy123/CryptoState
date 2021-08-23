@@ -42,8 +42,8 @@ class MainFragment : Fragment() {
         binding.viewPager.adapter = pagerAdapter
         val tabLayoutMediator = TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> tab.text = ""// getText(R.string.page_courses_name)
-                1 -> tab.text = ""//getText(R.string.page_my_assets_state_name)
+                0 -> tab.text = ""
+                1 -> tab.text = ""
             }
         }
         tabLayoutMediator.attach()

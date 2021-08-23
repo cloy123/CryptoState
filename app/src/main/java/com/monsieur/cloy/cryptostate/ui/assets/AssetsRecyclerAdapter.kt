@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Assets.Assets
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
+import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
@@ -26,14 +26,6 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
     fun setItems(items : Assets){
         this.items = items
         notifyDataSetChanged()
-    }
-
-    fun getSize() : Int {
-        return if(items != null){
-            items!!.items.size
-        } else{
-            0
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -64,9 +56,8 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
             }
 
             holder.delete.setOnClickListener {
-                Toast.makeText(APP_ACTIVITY, "delete", Toast.LENGTH_SHORT).show()
                 if(!viewModel.removeAsset(items!!.items[position])){
-                    Log.d("myExeptions", "Ошибка при удалении Asset")
+                    Log.d(myExeptionsTag, "Ошибка при удалении Asset")
                 }
             }
 

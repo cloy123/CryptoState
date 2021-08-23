@@ -1,9 +1,7 @@
 package com.monsieur.cloy.cryptostate.model.Prices
 
 import android.util.Log
-import com.monsieur.cloy.cryptostate.utilits.Currency
-import com.monsieur.cloy.cryptostate.utilits.elementGoogleFinance
-import com.monsieur.cloy.cryptostate.utilits.urlGoogleFinance
+import com.monsieur.cloy.cryptostate.utilits.*
 import org.jsoup.Jsoup
 
 class UsdPrices {
@@ -18,25 +16,25 @@ class UsdPrices {
     }
 
     private fun updateUsdUahPrice(): Boolean{
-        try {
+        return try {
             val doc = Jsoup.connect(urlGoogleFinance + "USD-UAH").get().body()
             var priceText = doc.select(elementGoogleFinance).text()
             priceText =  priceText.replace(",", "")
             priceUsdUah = priceText.toFloat()
-            Log.d("text", "UsdUahPrice = $priceText")
-            return true
+            Log.d(myInfoTag, "UsdUahPrice = $priceText")
+            true
         } catch (e: Exception) {
             if (e.message != null) {
-                Log.d("myExeptions", e.message!!)
+                Log.d(myExeptionsTag, e.message!!)
             } else {
-                Log.d("myExeptions", "ошибка в UsdPrices.kt в UpdateUsdUahPrice")
+                Log.d(myExeptionsTag, "ошибка в UsdPrices.kt в UpdateUsdUahPrice")
             }
-            return false
+            false
         }
     }
 
     fun convert(from: Currency, to: Currency, asset: Float): Float{
-        var result = when(from){
+        val result = when(from){
             Currency.RUB -> asset / priceUsdRub
             Currency.USD -> asset
             Currency.EUR -> asset / priceUsdEur
@@ -58,13 +56,13 @@ class UsdPrices {
             var priceText = doc.select(elementGoogleFinance).text()
             priceText =  priceText.replace(",", "")
             priceUsdEur = priceText.toFloat()
-            Log.d("text", "UsdEurPrice = $priceText")
+            Log.d(myInfoTag, "UsdEurPrice = $priceText")
             return true
         } catch (e: Exception) {
             if (e.message != null) {
-                Log.d("myExeptions", e.message!!)
+                Log.d(myExeptionsTag, e.message!!)
             } else {
-                Log.d("myExeptions", "ошибка в UsdPrices.kt в UpdateUsdEurPrice")
+                Log.d(myExeptionsTag, "ошибка в UsdPrices.kt в UpdateUsdEurPrice")
             }
             return false
         }
@@ -76,13 +74,13 @@ class UsdPrices {
             var priceText = doc.select(elementGoogleFinance).text()
             priceText =  priceText.replace(",", "")
             priceUsdRub = priceText.toFloat()
-            Log.d("text", "UsdRubPrice = $priceText")
+            Log.d(myInfoTag, "UsdRubPrice = $priceText")
             return true
         } catch (e: Exception) {
             if (e.message != null) {
-                Log.d("myExeptions", e.message!!)
+                Log.d(myExeptionsTag, e.message!!)
             } else {
-                Log.d("myExeptions", "ошибка в UsdPrices.kt в UpdateUsdRubPrice")
+                Log.d(myExeptionsTag, "ошибка в UsdPrices.kt в UpdateUsdRubPrice")
             }
             return false
         }

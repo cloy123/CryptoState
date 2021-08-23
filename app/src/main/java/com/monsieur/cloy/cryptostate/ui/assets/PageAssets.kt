@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.FragmentAssetsBinding
-import com.monsieur.cloy.cryptostate.model.Assets.Asset
-import com.monsieur.cloy.cryptostate.model.Assets.Assets
 import com.monsieur.cloy.cryptostate.utilits.*
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
@@ -19,10 +17,6 @@ class PageAssets : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerAdapter: AssetsRecyclerAdapter
     private lateinit var viewModel: MainViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +32,7 @@ class PageAssets : Fragment() {
         initRecyclerAdapter()
         binding.add.setOnClickListener {
             if(viewModel.prices.value?.isEmpty() == true){
-                showToast("Список курсов пуст")
+                showToast("Список курсов пуст")//TODO добавлю фиат по умолчанию
             }else{
                 replaceFragment(AddAsset())
             }
@@ -60,7 +54,7 @@ class PageAssets : Fragment() {
         })
     }
 
-    fun updateFields(){
+    private fun updateFields(){
         val assets = viewModel.assets.value!!
         recyclerAdapter.setItems(assets)
         if(!assets.isEmpty()){

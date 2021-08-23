@@ -6,6 +6,8 @@ import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.model.Prices.Prices
 import com.monsieur.cloy.cryptostate.utilits.Currency
+import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
+import com.monsieur.cloy.cryptostate.utilits.myInfoTag
 
 class Assets {
 
@@ -38,7 +40,7 @@ class Assets {
                 asset.update(price)
             }else{
                 ifLastUpdateError = true
-                Log.d("myExeptions", "не получилось найти в списке prices ${asset.symbol}")
+                Log.d(myExeptionsTag, "не получилось найти в списке prices ${asset.symbol}")
             }
             quantityRUB += asset.quantityRUB
             quantityUSD += asset.quantityUSD
@@ -48,7 +50,7 @@ class Assets {
             changeRUB += prices.usdPrices.convert(asset.mainCurrency, Currency.RUB, asset.change)
             changeEUR += prices.usdPrices.convert(asset.mainCurrency, Currency.EUR, asset.change)
             changeUAH += prices.usdPrices.convert(asset.mainCurrency, Currency.UAH, asset.change)
-            Log.d("text", "quantityRUB = $quantityRUB")
+            Log.d(myInfoTag, "quantityRUB = $quantityRUB")
         }
     }
 

@@ -1,6 +1,7 @@
 package com.monsieur.cloy.cryptostate.model.Prices
 
 import android.util.Log
+import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 
 class Prices {
 
@@ -15,7 +16,7 @@ class Prices {
             price.UpdateCurrency(usdPrices)
             if(price.ifLastUpdateError){
                 ifLastUpdateError = true
-                Log.d("myExeptions", price.symbol)
+                Log.d(myExeptionsTag, price.symbol)
             }
         }
     }

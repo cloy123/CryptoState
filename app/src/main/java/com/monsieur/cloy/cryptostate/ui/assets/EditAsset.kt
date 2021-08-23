@@ -5,10 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-
-import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
+import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentEditAssetBinding
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Prices.Price
@@ -22,11 +20,6 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
     private lateinit var _binding: FragmentEditAssetBinding
     private val binding get() = _binding
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,14 +31,14 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
     override fun onStart() {
         super.onStart()
         updateFields()
-        changeToolBar(menu = false, homeButton = true, "Изменить курс")
+        changeToolBar(menu = false, homeButton = true, getString(R.string.edit_asset_title))
         binding.cancelButton.setOnClickListener {
             backButton()
         }
 
         binding.buy.setOnClickListener {
             if(binding.buyPrice.text.trim().isEmpty() || binding.buyQuantity.text.trim().isEmpty()){
-                showToast("Количество или цена не заполнено")
+                showToast(getString(R.string.fields_not_filled))
             }else{
                 asset.buy(binding.buyQuantity.text.toString().toFloat(), binding.buyPrice.text.toString().toFloat(), price)
                 updateFields()
@@ -54,7 +47,7 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
 
         binding.sell.setOnClickListener {
             if(binding.sellPrice.text.trim().isEmpty() || binding.sellQuantity.text.trim().isEmpty()){
-                showToast("Количество или цена не заполнено")
+                showToast(getString(R.string.fields_not_filled))
             }else{
                 asset.sell(binding.sellQuantity.text.toString().toFloat(), binding.sellPrice.text.toString().toFloat(), price)
                 updateFields()
@@ -63,7 +56,7 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
 
         binding.saveButton.setOnClickListener {
             if(binding.assetName.text.trim().isEmpty()){
-                showToast("Поле Название - пусто")
+                showToast(getString(R.string.fields_not_filled))
                 return@setOnClickListener
             }else{
                 val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)

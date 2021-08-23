@@ -28,7 +28,6 @@ fun replaceFragment(fragment: Fragment, addStack: Boolean = true) {
 }
 
 fun changeToolBar(menu: Boolean, homeButton: Boolean, title: String){
-    //APP_ACTIVITY.menuInflater.inflate(R.menu.main_fragment_menu, toolbarMenu)
     if(toolbarMenu != null && toolbarMenu!!.children.count() > 0){
         for(menuItem in toolbarMenu?.children!!){
             menuItem.isVisible = menu

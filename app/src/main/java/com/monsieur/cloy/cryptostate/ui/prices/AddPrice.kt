@@ -11,16 +11,11 @@ import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.utilits.*
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
-import org.jsoup.Connection
 
 class AddPrice : Fragment() {
 
     private lateinit var _binding: FragmentAddPriceBinding
     private val binding get() = _binding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,13 +27,13 @@ class AddPrice : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        changeToolBar(menu = false, homeButton = true, "Добавить курс")
+        changeToolBar(menu = false, homeButton = true, getString(R.string.add_price_title))
         binding.cancelButton.setOnClickListener {
             backButton()
         }
         binding.addButton.setOnClickListener {
             if(binding.symbol.text.trim().isEmpty() || binding.symbolName.text.trim().isEmpty()){
-                showToast("Поле символ - пусто")
+                showToast(getString(R.string.fields_not_filled))
                 return@setOnClickListener
             }else{
                 val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -56,8 +51,6 @@ class AddPrice : Fragment() {
             }
         }
     }
-
-
 
     private fun spinnerTextToCurrency(): Currency{
         return when(binding.spinnerCurrency.selectedItemId.toInt()){
@@ -80,6 +73,4 @@ class AddPrice : Fragment() {
             else -> Categories.Fiat
         }
     }
-
-
 }

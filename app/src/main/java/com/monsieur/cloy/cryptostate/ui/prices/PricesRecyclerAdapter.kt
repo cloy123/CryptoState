@@ -7,26 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Prices.Prices
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
+import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewHolder>() {
 
     private var items: Prices? = null
-
-    fun getSize() : Int {
-            return if(items != null){
-                items!!.items.size
-            } else{
-                0
-            }
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setItems(items : Prices){
@@ -60,10 +52,9 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
                 }
             }
             holder.delete.setOnClickListener {
-                Toast.makeText(APP_ACTIVITY, "delete", Toast.LENGTH_SHORT).show()
                 val viewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
                 if(!viewModel.removePrice(items!!.items[position])){
-                    Log.d("myExeptions", "Ошибка при удалении Price")
+                    Log.d(myExeptionsTag, "Ошибка при удалении Price")
                 }
             }
         }

@@ -4,17 +4,14 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
+import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Assets.Assets
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.model.Prices.Prices
 import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
-import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.utilits.Categories
-import com.monsieur.cloy.cryptostate.utilits.FILE_NAME
-import com.monsieur.cloy.cryptostate.utilits.showToast
+import com.monsieur.cloy.cryptostate.utilits.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,11 +19,9 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
-import java.util.concurrent.BlockingDeque
 
 class MainViewModel: ViewModel() {
 
-    val categories = MutableLiveData<List<Categories>>()
     var prices : MutableLiveData<Prices> = MutableLiveData()
     private var usdPrices = UsdPrices()
     var assets : MutableLiveData<Assets> = MutableLiveData()
@@ -37,13 +32,13 @@ class MainViewModel: ViewModel() {
     fun refresh(){
         GlobalScope.launch {
             if(updateUsdPrices()) {
-                Log.d("text", "Complete updateUsdPrices")
+                Log.d(myInfoTag, "Complete updateUsdPrices")
             }
             if(updatePrices()) {
-                Log.d("text", "Complete updatePrices")
+                Log.d(myInfoTag, "Complete updatePrices")
             }
             if(updateAssets()){
-                Log.d("text", "Complete updateAssets")
+                Log.d(myInfoTag, "Complete updateAssets")
             }
             saveData()
         }
@@ -98,12 +93,12 @@ class MainViewModel: ViewModel() {
         newPrice.updatePrices(usdPrices)
         if(newPrice.ifLastUpdateError){
             GlobalScope.launch(Dispatchers.Main){
-                showToast("Ошибка при обновлении данных курсов")
+                showToast(APP_ACTIVITY.getString(R.string.error_updating_prices_data))
             }
-            Log.d("text", "error update prices")
+            Log.d(myInfoTag, "error update prices")
             result = false
         }
-        Log.d("text", "Complete update prices")
+        Log.d(myInfoTag, "Complete update prices")
         GlobalScope.launch(Dispatchers.Main){
             prices.value = newPrice
         }
@@ -118,12 +113,12 @@ class MainViewModel: ViewModel() {
         newAssets.updateAssets(prices.value!!)
         if(newAssets.ifLastUpdateError){
             GlobalScope.launch(Dispatchers.Main){
-                showToast("Ошибка при обновлении данных активов")
+                showToast(APP_ACTIVITY.getString(R.string.error_updating_assets_data))
             }
-            Log.d("myExeptions", "error update assets")
+            Log.d(myExeptionsTag, "error update assets")
             return false
         }
-        Log.d("text", "Complete update assets")
+        Log.d(myInfoTag, "Complete update assets")
         GlobalScope.launch(Dispatchers.Main){
             assets.value = newAssets
         }
@@ -157,7 +152,7 @@ class MainViewModel: ViewModel() {
     fun loadData(){
         GlobalScope.launch {
             if(!dataController.loadData()){
-                Log.d("myExeptions", "ошибка при загрузке prices из JSON или их просто ещё нету")
+                Log.d(myExeptionsTag, "ошибка при загрузке prices из JSON или их просто ещё нету")
             }
         }
     }
@@ -165,12 +160,10 @@ class MainViewModel: ViewModel() {
     fun saveData(){
         GlobalScope.launch {
             if (!dataController.saveData()) {
-                Log.d("myExeptions", "ошибка при сохрнении Prices")
+                Log.d(myExeptionsTag, "ошибка при сохрнении Prices")
             }
         }
     }
-
-
 
     private inner class DataController(){
         private var streamReader: InputStreamReader? = null
@@ -211,7 +204,7 @@ class MainViewModel: ViewModel() {
                 }
                 return true
             }catch (e:Exception){
-                e.message?.let { Log.d("myExeption", it) }
+                e.message?.let { Log.d(myExeptionsTag, it) }
                 return false
             }
         }
@@ -233,7 +226,7 @@ class MainViewModel: ViewModel() {
                 return true
             } catch (e: Exception) {
                 e.printStackTrace()
-                e.message?.let { Log.d("myExeptions", "$it  ошибка при сохранении") }
+                e.message?.let { Log.d(myExeptionsTag, "$it  ошибка при сохранении") }
             } finally {
                 closeFileOutputStream()
             }

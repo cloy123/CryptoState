@@ -4,6 +4,8 @@ import android.util.Log
 import org.jsoup.Jsoup
 import com.monsieur.cloy.cryptostate.utilits.Currency
 import com.monsieur.cloy.cryptostate.utilits.Categories
+import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
+import com.monsieur.cloy.cryptostate.utilits.myInfoTag
 
 class Price(var symbol: String, var symbolName: String, var mainCurrency: Currency, var category: Categories, val url: String, val element: String) {
 
@@ -69,13 +71,13 @@ class Price(var symbol: String, var symbolName: String, var mainCurrency: Curren
             priceText = priceText.replace("[^0-9.]".toRegex(), "")
 
             setMainPrice(priceText.toFloat())
-            Log.d("text", "setMainPrice = $priceText")
+            Log.d(myInfoTag, "setMainPrice = $priceText")
             ifLastUpdateError = false
         } catch (e: Exception) {
             if (e.message != null) {
-                Log.d("myExeptions", e.message!! + " ошибка в Price.kt в UpdateMainCurrency")
+                Log.d(myExeptionsTag, e.message!! + " ошибка в Price.kt в UpdateMainCurrency")
             } else {
-                Log.d("myExeptions", "ошибка в Price.kt в UpdateMainCurrency")
+                Log.d(myExeptionsTag, "ошибка в Price.kt в UpdateMainCurrency")
             }
             ifLastUpdateError = true
         }

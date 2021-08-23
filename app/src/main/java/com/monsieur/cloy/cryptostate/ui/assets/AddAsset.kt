@@ -21,10 +21,6 @@ class AddAsset : Fragment() {
     private val binding get() = _binding
     private val pricesArray = ArrayList<String>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,24 +32,22 @@ class AddAsset : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        changeToolBar(menu = false, homeButton = true, "Добавить актив")
+        changeToolBar(menu = false, homeButton = true, getString(R.string.add_asset_title))
         val arrayAdapter = context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item, pricesArray) }
         binding.spinnerCurrency.adapter = arrayAdapter
         binding.spinnerCurrency.setSelection(0)
 
         binding.saveButton.setOnClickListener {
             if(binding.assetName.text.trim().isEmpty()){
-                showToast("Поле Название - пусто")
+                showToast(getString(R.string.fields_not_filled))
             }
             val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
             viewModel.saveAsset(binding.assetName.text.toString(), pricesArray[binding.spinnerCurrency.selectedItemPosition])
             backButton()
         }
-
         binding.cancelButton.setOnClickListener {
             backButton()
         }
-
     }
 
     fun getPricesArray(){

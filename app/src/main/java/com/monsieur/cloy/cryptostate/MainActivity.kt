@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.loadData()
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = ""
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_settings -> {
-                showToast("ну типо настройки")
+                showToast("ну типо настройки")//TODO
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -38,7 +38,7 @@ class Asset(var asset: String, var symbol: String, var mainCurrency: Currency) {
         change = getMainPrice(price.mainCurrency) - depositedQuantityMainCurrency
     }
 
-    fun getMainPrice(mainCurrency: Currency): Float {
+    private fun getMainPrice(mainCurrency: Currency): Float {
         return when (mainCurrency) {
             Currency.RUB -> quantityRUB
             Currency.USD -> quantityUSD
