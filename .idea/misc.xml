@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Desktop/CryptoState/app/src/main/res/drawable/gradient.xml" value="0.29635416666666664" />
         <entry key="..\:/Desktop/CryptoState/app/src/main/res/drawable/ic_launcher_background.xml" value="0.4395833333333333" />
         <entry key="..\:/Desktop/CryptoState/app/src/main/res/drawable/layout_border.xml" value="0.44166666666666665" />
+        <entry key="..\:/Desktop/CryptoState/app/src/main/res/drawable/oval_button.xml" value="0.29635416666666664" />
+        <entry key="..\:/Desktop/CryptoState/app/src/main/res/drawable/oval_button_dark.xml" value="0.4505208333333333" />
         <entry key="..\:/Desktop/CryptoState/app/src/main/res/layout/activity_main.xml" value="0.32382246376811596" />
         <entry key="..\:/Desktop/CryptoState/app/src/main/res/layout/assets_card_layout.xml" value="0.6666666666666666" />
         <entry key="..\:/Desktop/CryptoState/app/src/main/res/layout/fragment_add_asset.xml" value="0.42552083333333335" />

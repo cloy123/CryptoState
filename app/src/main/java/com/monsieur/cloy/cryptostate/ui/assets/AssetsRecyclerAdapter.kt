@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -89,8 +90,8 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
         var averagePrice: TextView = itemView.findViewById(R.id.averagePrice)
         var change: TextView = itemView.findViewById(R.id.change)
         var card: CardView = itemView.findViewById(R.id.card)
-        var edit: TextView = itemView.findViewById(R.id.edit)
-        var delete: TextView = itemView.findViewById(R.id.delete)
+        var edit: Button = itemView.findViewById(R.id.edit)
+        var delete: Button = itemView.findViewById(R.id.delete)
         var hiddenLayout: LinearLayout = itemView.findViewById(R.id.hidden_layout)
         var isOpen = false
     }

@@ -15,7 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="4dp">
+        android:padding="4dp"
+        android:background="@drawable/layout_border">
 
         <TextView
             android:id="@+id/textView"
@@ -44,6 +45,8 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:textSize="@dimen/big_text"
+            android:textAlignment="center"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
@@ -70,9 +73,12 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:textSize="@dimen/medium_text"
+        android:background="@drawable/oval_button_dark_ripple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cancel_button"/>
+        app:layout_constraintEnd_toStartOf="@+id/cancel_button"
+        android:stateListAnimator="@null"
+        android:textColor="@color/black" />
 
     <Button
         android:text="@string/cancel"
@@ -83,6 +89,9 @@
         android:textSize="@dimen/medium_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/save_button" />
+        app:layout_constraintStart_toEndOf="@+id/save_button"
+        android:background="@drawable/oval_button_dark_ripple"
+        android:stateListAnimator="@null"
+        android:textColor="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

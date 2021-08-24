@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -78,7 +79,7 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
         var eurPrice: TextView = itemView.findViewById(R.id.price_eur)
         var uahPrice: TextView = itemView.findViewById(R.id.price_uah)
         var card: CardView = itemView.findViewById(R.id.card)
-        var delete: TextView = itemView.findViewById(R.id.delete)
+        var delete: Button = itemView.findViewById(R.id.delete)
         var hiddenLayout: LinearLayout = itemView.findViewById(R.id.hidden_layout)
         var isOpen = false
     }
