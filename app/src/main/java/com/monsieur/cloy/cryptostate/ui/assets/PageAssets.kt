@@ -30,13 +30,6 @@ class PageAssets : Fragment() {
 
     private fun initFunc() {
         initRecyclerAdapter()
-        binding.add.setOnClickListener {
-            if(viewModel.prices.value?.isEmpty() == true){
-                showToast("Список курсов пуст")//TODO добавлю фиат по умолчанию
-            }else{
-                replaceFragment(AddAsset())
-            }
-        }
     }
 
     private fun initViewModel() {

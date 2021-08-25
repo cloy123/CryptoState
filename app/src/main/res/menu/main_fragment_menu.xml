@@ -5,7 +5,10 @@
         android:icon="@drawable/ic_round_refresh_24"
         app:showAsAction="ifRoom"
         android:title="@string/refresh" />
-    <item android:id="@+id/action_settings"
-        android:title="@string/settings"
+    <item android:id="@+id/action_add_price"
+        android:title="@string/add_price_title"
+        app:showAsAction="never"/>
+    <item android:id="@+id/action_add_asset"
+        android:title="@string/add_asset_title"
         app:showAsAction="never"/>
 </menu>

@@ -6,7 +6,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.ActivityMainBinding
+import com.monsieur.cloy.cryptostate.ui.assets.AddAsset
 import com.monsieur.cloy.cryptostate.ui.main.MainFragment
+import com.monsieur.cloy.cryptostate.ui.prices.AddPrice
 import com.monsieur.cloy.cryptostate.utilits.*
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
@@ -44,8 +46,12 @@ class MainActivity : AppCompatActivity() {
                 viewModel.refresh()
                 true
             }
-            R.id.action_settings -> {
-                showToast("ну типо настройки")//TODO
+            R.id.action_add_price -> {
+                replaceFragment(AddPrice())
+                true
+            }
+            R.id.action_add_asset -> {
+                replaceFragment(AddAsset())
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -33,9 +33,6 @@ class PagePrices : Fragment() {
     }
 
     private fun initFunc(){
-        binding.add.setOnClickListener {
-            replaceFragment(AddPrice())
-        }
         initRecyclerAdapter()
     }
 
