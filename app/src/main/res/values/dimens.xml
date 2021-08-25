@@ -3,4 +3,9 @@
     <dimen name="small_text">10sp</dimen>
     <dimen name="big_text">20sp</dimen>
     <dimen name="medium_text">15sp</dimen>
+    <dimen name="big_horizontal_margin">12dp</dimen>
+    <dimen name="medium_horizontal_margin">6dp</dimen>
+    <dimen name="big_vertical_margin">12dp</dimen>
+    <dimen name="small_vertical_margin">3dp</dimen>
+    <dimen name="medium_vertical_margin">6dp</dimen>
 </resources>

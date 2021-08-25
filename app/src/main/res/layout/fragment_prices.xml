@@ -15,7 +15,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="16dp"
         android:src="@drawable/ic_round_add_24"
-        android:contentDescription="@string/add" />
+        android:contentDescription="@string/add"
+        app:backgroundTint="?attr/colorOnPrimary"
+        app:borderWidth="0dp"
+        app:tint="?attr/colorSecondary"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

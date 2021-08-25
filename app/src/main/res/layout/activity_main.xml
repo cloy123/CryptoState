@@ -5,14 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="?attr/colorPrimary">
 
     <androidx.appcompat.widget.Toolbar
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:menu="@menu/main_fragment_menu"/>
+        app:menu="@menu/main_fragment_menu"
+        android:background="?attr/colorPrimary"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"

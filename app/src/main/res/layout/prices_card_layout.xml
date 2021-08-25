@@ -7,7 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:backgroundTint="?attr/colorOnPrimary"
-    android:layout_margin="4dp">
+    app:cardCornerRadius="10dip"
+    android:layout_marginHorizontal="@dimen/big_horizontal_margin"
+    android:layout_marginVertical="@dimen/big_vertical_margin">
 
 
 
@@ -15,12 +17,13 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="10dp">
+        android:layout_marginHorizontal="@dimen/medium_horizontal_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/visible_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/big_vertical_margin">
 
             <TextView
                 android:id="@+id/symbolName"
@@ -58,6 +61,7 @@
                 android:textSize="@dimen/small_text"
                 app:layout_constraintTop_toBottomOf="@id/symbolName"
                 app:layout_constraintStart_toStartOf="@id/symbolName"
+                android:layout_marginTop="@dimen/small_vertical_margin"
                 tools:text="BTC/USDT" />
 
             <TextView
@@ -67,6 +71,7 @@
                 android:textSize="@dimen/small_text"
                 app:layout_constraintTop_toBottomOf="@id/symbol"
                 app:layout_constraintStart_toStartOf="@id/symbol"
+                android:layout_marginTop="@dimen/small_vertical_margin"
                 tools:text="https/ gegregreg/regregregreg" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -83,7 +88,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp">
+                android:layout_marginBottom="@dimen/small_vertical_margin">
 
                 <TextView
                     style="@style/card_layout_textViews"
@@ -100,7 +105,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp">
+                android:layout_marginBottom="@dimen/small_vertical_margin">
 
                 <TextView
                     style="@style/card_layout_textViews"
@@ -117,7 +122,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp">
+                android:layout_marginBottom="@dimen/small_vertical_margin">
 
                 <TextView
                     style="@style/card_layout_textViews"
@@ -134,7 +139,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp">
+                android:layout_marginBottom="@dimen/small_vertical_margin">
 
                 <TextView
                     style="@style/card_layout_textViews"
@@ -150,7 +155,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="2dp">
+                android:layout_marginBottom="@dimen/small_vertical_margin">
 
                 <Button
                     android:id="@+id/delete"
