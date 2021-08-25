@@ -37,20 +37,22 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
         }
 
         binding.buy.setOnClickListener {
-            if(binding.buyPrice.text.trim().isEmpty() || binding.buyQuantity.text.trim().isEmpty()){
-                showToast(getString(R.string.fields_not_filled))
-            }else{
+            if(binding.buyPrice.text.trim().isNotEmpty() && binding.buyQuantity.text.trim().isNotEmpty()){
                 asset.buy(binding.buyQuantity.text.toString().toFloat(), binding.buyPrice.text.toString().toFloat(), price)
                 updateFields()
+            }
+            else{
+                showToast(getString(R.string.fields_not_filled))
             }
         }
 
         binding.sell.setOnClickListener {
-            if(binding.sellPrice.text.trim().isEmpty() || binding.sellQuantity.text.trim().isEmpty()){
-                showToast(getString(R.string.fields_not_filled))
-            }else{
+            if(binding.sellPrice.text.trim().isNotEmpty() || binding.sellQuantity.text.trim().isNotEmpty()){
                 asset.sell(binding.sellQuantity.text.toString().toFloat(), binding.sellPrice.text.toString().toFloat(), price)
                 updateFields()
+            }
+            else{
+                showToast(getString(R.string.fields_not_filled))
             }
         }
 
@@ -73,5 +75,15 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
         binding.quantity.text = asset.mainQuantity.toString()
         binding.quantityUSD.text = asset.quantityUSD.toString()
         binding.averagePrice.text = asset.averagePrice.toString()
+        if(asset.isDefaultFiatAsset){
+            binding.averagePrice.text = ""
+            binding.tvBuyPrice.visibility = View.GONE
+            binding.tvSellPrice.visibility = View.GONE
+            binding.buyPrice.visibility = View.GONE
+            binding.sellPrice.visibility = View.GONE
+            binding.linearAveragePrice.visibility = View.GONE
+            binding.buyPrice.setText("1")
+            binding.sellPrice.setText("1")
+        }
     }
 }

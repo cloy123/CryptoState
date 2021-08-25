@@ -59,9 +59,9 @@ class MainViewModel: ViewModel() {
         saveData()
     }
 
-    fun saveAsset(assetName: String, priceSymbol: String){
-        val price = prices.value?.findPrice(priceSymbol)
-        val newAsset = price?.let { Asset(assetName, priceSymbol, it.mainCurrency) }
+    fun saveAsset(assetName: String, priceSymbolName: String){
+        val price = prices.value?.findPrice(priceSymbolName)
+        val newAsset = price?.let { Asset(assetName, priceSymbolName, it.mainCurrency, price.isDefaultFiatPrice) }
         if (newAsset != null) {
             saveAsset(newAsset)
         }
@@ -153,6 +153,16 @@ class MainViewModel: ViewModel() {
         GlobalScope.launch {
             if(!dataController.loadData()){
                 Log.d(myExeptionsTag, "ошибка при загрузке prices из JSON или их просто ещё нету")
+                val newPrices = Prices()
+                newPrices.add(Price.getDefaultFiatPrice("USD", Currency.USD))
+                newPrices.add(Price.getDefaultFiatPrice("RUB", Currency.RUB))
+                newPrices.add(Price.getDefaultFiatPrice("EUR", Currency.EUR))
+                newPrices.add(Price.getDefaultFiatPrice("UAH", Currency.UAH))
+                GlobalScope.launch(Dispatchers.Main) {
+                    prices.value = newPrices
+                    assets.value = Assets()
+                    saveData()
+                }
             }
         }
     }
@@ -173,10 +183,6 @@ class MainViewModel: ViewModel() {
 
         fun loadData(): Boolean{
             if(!getDataFromJson()){
-                GlobalScope.launch(Dispatchers.Main) {
-                    prices.value = Prices()
-                    assets.value = Assets()
-                }
                 return false
             }
             return true

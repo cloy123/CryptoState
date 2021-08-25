@@ -50,12 +50,12 @@ class AddAsset : Fragment() {
         }
     }
 
-    fun getPricesArray(){
+    private fun getPricesArray(){
         val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         val prices = viewModel.prices.value
         if (prices != null) {
             for (price in prices.items){
-                pricesArray.add(price.symbol)
+                pricesArray.add(price.symbolName)
             }
         }
     }

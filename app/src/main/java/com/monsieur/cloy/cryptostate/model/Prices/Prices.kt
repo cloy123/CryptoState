@@ -13,7 +13,7 @@ class Prices {
         ifLastUpdateError = false
         this.usdPrices = usdPrices
         for(price in items){
-            price.UpdateCurrency(usdPrices)
+            price.updateCurrency(usdPrices)
             if(price.ifLastUpdateError){
                 ifLastUpdateError = true
                 Log.d(myExeptionsTag, price.symbol)
@@ -35,9 +35,9 @@ class Prices {
         return true
     }
 
-    fun findPrice(symbol: String):Price?{
+    fun findPrice(symbolName: String):Price?{
         for(price in items){
-            if(price.symbol == symbol){
+            if(price.symbolName == symbolName){
                 return price
             }
         }

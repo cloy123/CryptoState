@@ -148,6 +148,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_average_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_vertical_margin"
@@ -165,6 +166,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linear_change"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_vertical_margin"

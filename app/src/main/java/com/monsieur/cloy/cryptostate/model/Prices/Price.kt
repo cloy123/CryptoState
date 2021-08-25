@@ -7,7 +7,7 @@ import com.monsieur.cloy.cryptostate.utilits.Categories
 import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import com.monsieur.cloy.cryptostate.utilits.myInfoTag
 
-class Price(var symbol: String, var symbolName: String, var mainCurrency: Currency, var category: Categories, val url: String, val element: String) {
+open class Price(var symbol: String, var symbolName: String, var mainCurrency: Currency, var category: Categories, val url: String, private val element: String) {
 
     var ifLastUpdateError: Boolean = false
 
@@ -16,8 +16,12 @@ class Price(var symbol: String, var symbolName: String, var mainCurrency: Curren
     var priceRUB: Float = 0f
     var priceUAH: Float = 0f
     private var conventionalUnitPrice: Float = 0f
+    var isDefaultFiatPrice = false
 
-    fun getMainPrice(): Float {
+    open fun getMainPrice(): Float {
+        if(isDefaultFiatPrice){
+            return 1f
+        }
         return when (mainCurrency) {
             Currency.RUB -> priceRUB
             Currency.USD -> priceUSD
@@ -27,7 +31,7 @@ class Price(var symbol: String, var symbolName: String, var mainCurrency: Curren
         }
     }
 
-    fun setMainPrice(price: Float) {
+    protected open fun setMainPrice(price: Float) {
         when (mainCurrency) {
             Currency.RUB -> priceRUB = price
             Currency.USD -> priceUSD = price
@@ -37,8 +41,8 @@ class Price(var symbol: String, var symbolName: String, var mainCurrency: Curren
         }
     }
 
-    fun UpdateCurrency(usdPrices: UsdPrices) {
-        UpdateMainCurrency()
+    fun updateCurrency(usdPrices: UsdPrices) {
+        updateMainCurrency()
         if(ifLastUpdateError || mainCurrency == Currency.ConventionalUnit){
             return
         }
@@ -64,7 +68,11 @@ class Price(var symbol: String, var symbolName: String, var mainCurrency: Curren
 
 
 
-    fun UpdateMainCurrency() {
+    protected open fun updateMainCurrency() {
+        if(isDefaultFiatPrice){
+            setMainPrice(1f)
+            return
+        }
         try {
             val doc = Jsoup.connect(url + symbol).get().body()
             var priceText = doc.select(element).text()
@@ -80,6 +88,15 @@ class Price(var symbol: String, var symbolName: String, var mainCurrency: Curren
                 Log.d(myExeptionsTag, "ошибка в Price.kt в UpdateMainCurrency")
             }
             ifLastUpdateError = true
+        }
+    }
+
+    companion object{
+        fun getDefaultFiatPrice(symbolName: String, mainCurrency: Currency): Price{
+            val newPrice = Price("$symbolName/$symbolName", symbolName, mainCurrency, Categories.Fiat, "", "")
+            newPrice.isDefaultFiatPrice = true
+            newPrice.setMainPrice(1f)
+            return newPrice
         }
     }
 }

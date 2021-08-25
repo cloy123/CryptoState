@@ -5,7 +5,7 @@ import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
 import com.monsieur.cloy.cryptostate.utilits.Categories
 import com.monsieur.cloy.cryptostate.utilits.Currency
 
-class Asset(var asset: String, var symbol: String, var mainCurrency: Currency) {
+class Asset(var asset: String, var symbol: String, var mainCurrency: Currency, var isDefaultFiatAsset: Boolean) {
 
     var depositedQuantityMainCurrency = 0f
     var mainQuantity: Float = 0f

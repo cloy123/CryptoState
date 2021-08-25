@@ -46,6 +46,15 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
             holder.quantityUAH.text = item.quantityUAH.toString()
             holder.averagePrice.text = item.averagePrice.toString()
             holder.change.text = item.change.toString()
+            if(item.isDefaultFiatAsset){
+                holder.delete.visibility = View.GONE
+                holder.linearAveragePrice.visibility = View.GONE
+                holder.linearChange.visibility = View.GONE
+            }else{
+                holder.delete.visibility = View.VISIBLE
+                holder.linearAveragePrice.visibility = View.VISIBLE
+                holder.linearChange.visibility = View.VISIBLE
+            }
             holder.card.setOnClickListener {
                 if(holder.isOpen){
                     holder.hiddenLayout.visibility = View.GONE
@@ -94,5 +103,7 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
         var delete: Button = itemView.findViewById(R.id.delete)
         var hiddenLayout: LinearLayout = itemView.findViewById(R.id.hidden_layout)
         var isOpen = false
+        var linearAveragePrice: LinearLayout = itemView.findViewById(R.id.linear_average_price)
+        var linearChange: LinearLayout = itemView.findViewById(R.id.linear_change)
     }
 }
