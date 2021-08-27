@@ -26,7 +26,7 @@ class MainViewModel: ViewModel() {
     private var usdPrices = UsdPrices()
     var assets : MutableLiveData<Assets> = MutableLiveData()
     private var dataController = DataController()
-
+    var currentTabPosition = 0
 
 
     fun refresh(){

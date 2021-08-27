@@ -45,8 +45,10 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
             holder.mainPrice.text = item.getMainPrice().toString()
             if(item.isDefaultFiatPrice){
                 holder.delete.visibility = View.GONE
+                holder.url.visibility = View.GONE
             }else{
                 holder.delete.visibility = View.VISIBLE
+                holder.url.visibility = View.VISIBLE
             }
             holder.card.setOnClickListener {
                 if(holder.isOpen){

@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("theme", MODE_PRIVATE)
         if (menu != null) {
             if(sharedPreferences.getBoolean("dark", false)){
-                val item = menu.getItem(1)
+                val item = menu.getItem(2)
                 item.icon = getDrawable(R.drawable.ic_round_light_mode_24)
             }
             toolbarMenu = menu
@@ -78,12 +78,12 @@ class MainActivity : AppCompatActivity() {
                 viewModel.refresh()
                 true
             }
-            R.id.action_add_price -> {
-                replaceFragment(AddPrice())
-                true
-            }
-            R.id.action_add_asset -> {
-                replaceFragment(AddAsset())
+            R.id.action_add -> {
+                if(viewModel.currentTabPosition == 0){
+                    replaceFragment(AddPrice())
+                }else{
+                    replaceFragment(AddAsset())
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

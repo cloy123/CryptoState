@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.monsieur.cloy.cryptostate.databinding.FragmentMainBinding
 import com.monsieur.cloy.cryptostate.utilits.changeToolBar
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), TabLayout.OnTabSelectedListener {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
@@ -35,6 +36,7 @@ class MainFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         changeToolBar(menu = true, homeButton = false, "")
+        binding.tabs.selectTab(binding.tabs.getTabAt(mainViewModel.currentTabPosition))
     }
 
     private fun createViewPager(){
@@ -47,5 +49,16 @@ class MainFragment : Fragment() {
             }
         }
         tabLayoutMediator.attach()
+        binding.tabs.addOnTabSelectedListener(this)
     }
+
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        if(mainViewModel != null){
+            mainViewModel.currentTabPosition = binding.tabs.selectedTabPosition
+        }
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {}
 }

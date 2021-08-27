@@ -13,7 +13,6 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapter
     }
 
     override fun createFragment(position: Int): Fragment {
-
         return when(position){
             0 -> PagePrices.newInstance()
             1 -> PageAssets.newInstance()

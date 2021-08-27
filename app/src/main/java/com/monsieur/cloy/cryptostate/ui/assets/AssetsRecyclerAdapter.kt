@@ -47,11 +47,11 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
             holder.averagePrice.text = item.averagePrice.toString()
             holder.change.text = item.change.toString()
             if(item.isDefaultFiatAsset){
-                holder.delete.visibility = View.GONE
+              //  holder.delete.visibility = View.GONE
                 holder.linearAveragePrice.visibility = View.GONE
                 holder.linearChange.visibility = View.GONE
             }else{
-                holder.delete.visibility = View.VISIBLE
+               // holder.delete.visibility = View.VISIBLE
                 holder.linearAveragePrice.visibility = View.VISIBLE
                 holder.linearChange.visibility = View.VISIBLE
             }
