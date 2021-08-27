@@ -10,162 +10,170 @@
     android:scrollbars="vertical"
     android:nestedScrollingEnabled="true">
 
-
-    <LinearLayout
-        android:id="@+id/infoLinear"
-        android:orientation="vertical"
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motion_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginVertical="@dimen/big_vertical_margin"
-        android:layout_marginHorizontal="@dimen/big_horizontal_margin">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/usd"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text" />
-
-            <TextView
-                android:id="@+id/usd"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="1000" />
-
-            <TextView
-                android:id="@+id/usdChange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="+100$$$$$" />
-        </LinearLayout>
+        app:layoutDescription="@xml/fragment_assets_scene"
+        android:fitsSystemWindows="false">
 
 
         <LinearLayout
+            android:id="@+id/infoLinear"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="@dimen/big_vertical_margin"
+            android:layout_marginHorizontal="@dimen/big_horizontal_margin">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/rub"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text" />
-
-            <TextView
-                android:id="@+id/rub"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="1000" />
-
-            <TextView
-                android:id="@+id/rubChange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="+100$$$$$" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/eur"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text" />
-
-            <TextView
-                android:id="@+id/eur"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="1000" />
-
-            <TextView
-                android:id="@+id/eurChange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="+100$$$$$" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/uah"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text" />
-
-            <TextView
-                android:id="@+id/uah"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="1000" />
-
-            <TextView
-                android:id="@+id/uahChange"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="@dimen/big_text"
-                tools:text="+100$$$$$" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="8dp"
-                android:id="@+id/recyclerView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoLinear" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/usd"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/usd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/usdChange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="+100$$$$$" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/rub"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/rub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/rubChange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="+100$$$$$" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/eur"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/eur"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/eurChange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="+100$$$$$" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/uah"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text" />
+
+                <TextView
+                    android:id="@+id/uah"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/uahChange"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/big_text"
+                    tools:text="+100$$$$$" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/infoLinear" />
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

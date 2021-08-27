@@ -5,6 +5,10 @@
         android:icon="@drawable/ic_round_refresh_24"
         app:showAsAction="ifRoom"
         android:title="@string/refresh" />
+    <item android:id="@+id/action_mode"
+        android:icon="@drawable/ic_baseline_mode_night_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/mode"/>
     <item android:id="@+id/action_add_price"
         android:title="@string/add_price_title"
         app:showAsAction="never"/>
