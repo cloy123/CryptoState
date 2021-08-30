@@ -1,9 +1,6 @@
 package com.monsieur.cloy.cryptostate.utilits
 
-import android.icu.text.CaseMap
-import android.view.View
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.monsieur.cloy.cryptostate.R

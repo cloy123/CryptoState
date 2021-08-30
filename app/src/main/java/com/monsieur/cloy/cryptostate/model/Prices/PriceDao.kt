@@ -1,10 +1,7 @@
 package com.monsieur.cloy.cryptostate.model.Prices
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface PriceDao {
@@ -15,8 +12,8 @@ interface PriceDao {
     @Insert
     fun insertPrices(prices: List<Price>)
 
-    @Query("DELETE FROM prices WHERE symbol = :symbol & symbolName = :symbolName")
-    fun deletePrice(symbol: String, symbolName: String)
+    @Delete
+    fun deletePrice(price: Price)
 
     @Query("SELECT * FROM prices")
     fun getAllPrices(): LiveData<List<Price>>

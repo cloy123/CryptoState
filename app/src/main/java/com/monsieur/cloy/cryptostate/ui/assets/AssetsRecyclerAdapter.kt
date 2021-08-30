@@ -1,7 +1,6 @@
 package com.monsieur.cloy.cryptostate.ui.assets
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +11,19 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
-import com.monsieur.cloy.cryptostate.model.Assets.Assets
+import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import com.monsieur.cloy.cryptostate.utilits.replaceFragment
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewHolder>()  {
 
-    private var items: Assets? = null
+    private var assets: List<Asset>? = null
     private var viewModel: MainViewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(items : Assets){
-        this.items = items
+    fun setItems(assets : List<Asset>){
+        this.assets = assets
         notifyDataSetChanged()
     }
 
@@ -35,18 +33,18 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(items != null && items!!.items.size > 0){
-            val item = items!!.items[position]
-            holder.symbol.text = item.symbol
-            holder.asset.text = item.asset.toString()
-            holder.mainQuantity.text = item.mainQuantity.toString()
-            holder.quantityRUB.text = item.quantityRUB.toString()
-            holder.quantityUSD.text = item.quantityUSD.toString()
-            holder.quantityEUR.text = item.quantityEUR.toString()
-            holder.quantityUAH.text = item.quantityUAH.toString()
-            holder.averagePrice.text = item.averagePrice.toString()
-            holder.change.text = item.change.toString()
-            if(item.isDefaultFiatAsset){
+        if(assets != null && assets!!.isNotEmpty()){
+            val asset = assets!![position]
+            holder.symbol.text = asset.symbol
+            holder.asset.text = asset.asset.toString()
+            holder.mainQuantity.text = asset.mainQuantity.toString()
+            holder.quantityRUB.text = asset.quantityRUB.toString()
+            holder.quantityUSD.text = asset.quantityUSD.toString()
+            holder.quantityEUR.text = asset.quantityEUR.toString()
+            holder.quantityUAH.text = asset.quantityUAH.toString()
+            holder.averagePrice.text = asset.averagePrice.toString()
+            holder.change.text = asset.change.toString()
+            if(asset.isDefaultFiatAsset){
               //  holder.delete.visibility = View.GONE
                 holder.linearAveragePrice.visibility = View.GONE
                 holder.linearChange.visibility = View.GONE
@@ -66,23 +64,18 @@ class AssetsRecyclerAdapter() : RecyclerView.Adapter<AssetsRecyclerAdapter.ViewH
             }
 
             holder.delete.setOnClickListener {
-                if(!viewModel.removeAsset(items!!.items[position])){
-                    Log.d(myExeptionsTag, "Ошибка при удалении Asset")
-                }
+                viewModel.removeAsset(assets!![position])
             }
 
             holder.edit.setOnClickListener {
-                val price = viewModel.prices.value?.findPrice(item.symbol)
-                if(price != null){
-                    replaceFragment(EditAsset(item, price))
-                }
+                replaceFragment(EditAsset(asset))
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return if(items != null){
-            items!!.items.size
+        return if(assets != null){
+            assets!!.size
         } else{
             0
         }

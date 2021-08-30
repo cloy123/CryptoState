@@ -1,7 +1,6 @@
 package com.monsieur.cloy.cryptostate.ui.prices
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +11,18 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.monsieur.cloy.cryptostate.R
-import com.monsieur.cloy.cryptostate.model.Prices.Prices
+import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.utilits.APP_ACTIVITY
-import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
 class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewHolder>() {
 
-    private var items: Prices? = null
+    private var prices: List<Price>? = null
+    val viewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setItems(items : Prices){
-        this.items = items
+    fun setItems(prices : List<Price>){
+        this.prices = prices
         notifyDataSetChanged()
     }
 
@@ -33,17 +32,17 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(items != null && items!!.items.size > 0){
-            val item = items!!.items[position]
-            holder.symbol.text = item.symbol
-            holder.eurPrice.text = item.priceEUR.toString()
-            holder.rubPrice.text = item.priceRUB.toString()
-            holder.uahPrice.text = item.priceUAH.toString()
-            holder.usdPrice.text = item.priceUSD.toString()
-            holder.url.text = item.url
-            holder.symbolName.text = item.symbolName
-            holder.mainPrice.text = item.getMainPrice().toString()
-            if(item.isDefaultFiatPrice){
+        if(prices != null && prices!!.isNotEmpty()){
+            val price = prices!![position]
+            holder.symbol.text = price.symbol
+            holder.eurPrice.text = price.priceEUR.toString()
+            holder.rubPrice.text = price.priceRUB.toString()
+            holder.uahPrice.text = price.priceUAH.toString()
+            holder.usdPrice.text = price.priceUSD.toString()
+            holder.url.text = price.url
+            holder.symbolName.text = price.symbolName
+            holder.mainPrice.text = price.getMainPrice().toString()
+            if(price.isDefaultFiatPrice){
                 holder.delete.visibility = View.GONE
                 holder.url.visibility = View.GONE
             }else{
@@ -60,17 +59,14 @@ class PricesRecyclerAdapter() : RecyclerView.Adapter<PricesRecyclerAdapter.ViewH
                 }
             }
             holder.delete.setOnClickListener {
-                val viewModel = ViewModelProvider(APP_ACTIVITY).get(MainViewModel::class.java)
-                if(!viewModel.removePrice(items!!.items[position])){
-                    Log.d(myExeptionsTag, "Ошибка при удалении Price")
-                }
+                viewModel.removePrice(prices!![position])
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return if(items != null){
-            items!!.items.size
+        return if(prices != null){
+            prices!!.size
         } else{
             0
         }

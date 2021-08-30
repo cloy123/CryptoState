@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentAddAssetBinding
@@ -20,6 +21,7 @@ class AddAsset : Fragment() {
     private lateinit var _binding: FragmentAddAssetBinding
     private val binding get() = _binding
     private val pricesArray = ArrayList<String>()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +43,7 @@ class AddAsset : Fragment() {
             if(binding.assetName.text.trim().isEmpty()){
                 showToast(getString(R.string.fields_not_filled))
             }
-            val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-            viewModel.saveAsset(binding.assetName.text.toString(), pricesArray[binding.spinnerCurrency.selectedItemPosition])
+            viewModel.addAsset(binding.assetName.text.toString(), pricesArray[binding.spinnerCurrency.selectedItemPosition])
             backButton()
         }
         binding.cancelButton.setOnClickListener {
@@ -51,10 +52,9 @@ class AddAsset : Fragment() {
     }
 
     private fun getPricesArray(){
-        val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        val prices = viewModel.prices.value
-        if (prices != null) {
-            for (price in prices.items){
+        if(viewModel.allPrices != null && viewModel.allPrices!!.value != null){
+            val prices = viewModel.allPrices!!.value
+            for (price in prices!!){
                 pricesArray.add(price.symbolName)
             }
         }

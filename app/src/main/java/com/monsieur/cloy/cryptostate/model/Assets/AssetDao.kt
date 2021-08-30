@@ -1,10 +1,7 @@
 package com.monsieur.cloy.cryptostate.model.Assets
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 
 @Dao
@@ -15,8 +12,8 @@ interface AssetDao {
     @Insert
     fun insertAssets(assets: List<Asset>)
 
-    @Query("DELETE FROM assets WHERE symbol = :symbol & asset = :asset")
-    fun deleteAsset(symbol: String, asset: String)
+    @Delete
+    fun deleteAsset(asset: Asset)
 
     @Query("SELECT * FROM assets")
     fun getAllAssets(): LiveData<List<Asset>>

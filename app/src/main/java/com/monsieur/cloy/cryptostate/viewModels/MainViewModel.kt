@@ -1,247 +1,117 @@
 package com.monsieur.cloy.cryptostate.viewModels
 
-import android.content.Context
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.google.gson.Gson
-import com.monsieur.cloy.cryptostate.R
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
-import com.monsieur.cloy.cryptostate.model.Assets.Assets
+import com.monsieur.cloy.cryptostate.model.Assets.AssetRepository
+import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfo
 import com.monsieur.cloy.cryptostate.model.Prices.Price
-import com.monsieur.cloy.cryptostate.model.Prices.Prices
+import com.monsieur.cloy.cryptostate.model.Prices.PriceRepository
 import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
 import com.monsieur.cloy.cryptostate.utilits.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStreamReader
 
-class MainViewModel: ViewModel() {
+class MainViewModel(application: Application): AndroidViewModel(application) {
 
-    var prices : MutableLiveData<Prices> = MutableLiveData()
-    private var usdPrices = UsdPrices()
-    var assets : MutableLiveData<Assets> = MutableLiveData()
-    private var dataController = DataController()
-    var currentTabPosition = 0
+    val priceRepository: PriceRepository
+    val allPrices: LiveData<List<Price>>?
+    val assetRepository: AssetRepository
+    val allAssets: LiveData<List<Asset>>?
+    val assetsInfo: LiveData<List<AssetsInfo>>?
+    val usdPrices: UsdPrices = UsdPrices()
 
+    init {
+        priceRepository = PriceRepository(application)
+        assetRepository = AssetRepository(application)
+        allAssets = assetRepository.allAssets
+        assetsInfo = assetRepository.assetsInfo
+        allPrices = priceRepository.allPrices
+        allPrices?.observe(APP_ACTIVITY, Observer {
+            //TODO переделать потом
+            if(allPrices.value.isNullOrEmpty()){
+                priceRepository.insertPrices(
+                    listOf<Price>(
+                        Price.getDefaultFiatPrice("USD", Currency.USD),
+                        Price.getDefaultFiatPrice("RUB", Currency.RUB),
+                        Price.getDefaultFiatPrice("EUR", Currency.EUR),
+                        Price.getDefaultFiatPrice("UAH", Currency.UAH)))
+            }
+        })
+    }
 
     fun refresh(){
         GlobalScope.launch {
-            if(updateUsdPrices()) {
+            if(!updateUsdPrices()) {
                 Log.d(myInfoTag, "Complete updateUsdPrices")
             }
-            if(updatePrices()) {
+            if(!updatePrices()) {
                 Log.d(myInfoTag, "Complete updatePrices")
             }
-            if(updateAssets()){
+            if(!updateAssets()){
                 Log.d(myInfoTag, "Complete updateAssets")
             }
-            saveData()
-        }
-    }
-
-    fun saveAsset(asset: Asset){
-        val newAssets = assets.value!!
-            for(i in 0 until newAssets.items.size){
-                if(newAssets.items[i].asset == asset.asset && newAssets.items[i].symbol == asset.symbol){
-                    newAssets.items[i] = asset
-                    assets.value = newAssets
-                    saveData()
-                    return
-                }
-            }
-        newAssets.items.add(asset)
-        assets.value = newAssets
-        saveData()
-    }
-
-    fun saveAsset(assetName: String, priceSymbolName: String){
-        val price = prices.value?.findPrice(priceSymbolName)
-        val newAsset = price?.let { Asset(assetName, priceSymbolName, it.mainCurrency, price.isDefaultFiatPrice) }
-        if (newAsset != null) {
-            saveAsset(newAsset)
-        }
-    }
-
-    fun removeAsset(asset: Asset): Boolean{
-        val newAssets = assets.value
-        val result = newAssets?.remove(asset)
-        assets.value = newAssets
-        return if (result == true) {
-            saveData()
-            true
-        } else {
-            false
         }
     }
 
     private fun updateUsdPrices(): Boolean{
         usdPrices.updateUsdPrices()
-        return !usdPrices.ifLastUpdateError
+        return usdPrices.ifLastUpdateError
     }
 
     private fun updatePrices(): Boolean{
-        if(prices.value == null || prices.value!!.items.size == 0){
-            return false
+        if(allPrices != null && allPrices.value != null) {
+            return priceRepository.updatePrices(usdPrices)
+        }else{
+            return true
         }
-        var result = true
-        val newPrice = prices.value!!
-        newPrice.updatePrices(usdPrices)
-        if(newPrice.ifLastUpdateError){
-            GlobalScope.launch(Dispatchers.Main){
-                showToast(APP_ACTIVITY.getString(R.string.error_updating_prices_data))
-            }
-            Log.d(myInfoTag, "error update prices")
-            result = false
-        }
-        Log.d(myInfoTag, "Complete update prices")
-        GlobalScope.launch(Dispatchers.Main){
-            prices.value = newPrice
-        }
-        return result
     }
 
     private fun updateAssets(): Boolean{
-        if(assets.value == null || assets.value!!.items.size == 0 || prices.value == null){
-            return false
+        if(allPrices != null && allPrices.value != null){
+            return assetRepository.updateAssets(allPrices.value!!, usdPrices)
+        }else{
+            return true
         }
-        val newAssets = assets.value!!
-        newAssets.updateAssets(prices.value!!)
-        if(newAssets.ifLastUpdateError){
-            GlobalScope.launch(Dispatchers.Main){
-                showToast(APP_ACTIVITY.getString(R.string.error_updating_assets_data))
-            }
-            Log.d(myExeptionsTag, "error update assets")
-            return false
-        }
-        Log.d(myInfoTag, "Complete update assets")
-        GlobalScope.launch(Dispatchers.Main){
-            assets.value = newAssets
-        }
-        return true
     }
 
-    fun removePrice(price: Price): Boolean {
-        val newPrice = prices.value
-        val result = newPrice?.remove(price)
-        prices.value = newPrice
-        return if (result == true) {
-            saveData()
-            true
-        } else {
-            false
+    fun removeAsset(asset: Asset){
+        assetRepository.deleteAsset(asset)
+    }
+
+    fun removePrice(price: Price) {
+        priceRepository.deletePrice(price)
+    }
+
+    fun findPrice(symbolName: String): Price?{
+        if(allPrices != null && allPrices.value != null){
+            return PriceRepository.findPrice(allPrices.value!!, symbolName)
         }
+        return null
     }
 
     fun addPrice(price: Price){
-        var newPrices = prices.value
-        if(newPrices == null){
-            newPrices = Prices()
-        }
-        newPrices.add(price)
-        prices.value = newPrices
-        saveData()
+        priceRepository.insertPrice(price)
     }
 
-
-
-    fun loadData(){
-        GlobalScope.launch {
-            if(!dataController.loadData()){
-                Log.d(myExeptionsTag, "ошибка при загрузке prices из JSON или их просто ещё нету")
-                val newPrices = Prices()
-                newPrices.add(Price.getDefaultFiatPrice("USD", Currency.USD))
-                newPrices.add(Price.getDefaultFiatPrice("RUB", Currency.RUB))
-                newPrices.add(Price.getDefaultFiatPrice("EUR", Currency.EUR))
-                newPrices.add(Price.getDefaultFiatPrice("UAH", Currency.UAH))
-                GlobalScope.launch(Dispatchers.Main) {
-                    prices.value = newPrices
-                    assets.value = Assets()
-                    saveData()
-                }
-            }
-        }
+    fun addAsset(asset: Asset){
+        assetRepository.insertAsset(asset)
     }
 
-    fun saveData(){
-        GlobalScope.launch {
-            if (!dataController.saveData()) {
-                Log.d(myExeptionsTag, "ошибка при сохрнении Prices")
-            }
-        }
+    fun editAsset(asset: Asset){
+        assetRepository.updateAsset(asset)
     }
 
-    private inner class DataController(){
-        private var streamReader: InputStreamReader? = null
-        private var fileInputStream: FileInputStream? = null
-        private var fileOutputStream: FileOutputStream? = null
-
-
-        fun loadData(): Boolean{
-            if(!getDataFromJson()){
-                return false
+    fun addAsset(assetName: String, priceSymbolName: String){
+        if(allPrices != null && allPrices.value != null){
+            val price = PriceRepository.findPrice(allPrices.value!!, priceSymbolName)
+            val newAsset = price?.let { Asset(assetName, priceSymbolName, it.mainCurrency, it.isDefaultFiatPrice) }
+            if(newAsset != null){
+                addAsset(newAsset)
             }
-            return true
-        }
-
-        private fun closeFileOutputStream(){
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream!!.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-
-        fun getDataFromJson(): Boolean{
-            try {
-                fileInputStream = APP_ACTIVITY.openFileInput(FILE_NAME)
-                streamReader = InputStreamReader(fileInputStream)
-                val gson = Gson()
-                val dataItems: DataItems = gson.fromJson(streamReader, DataItems::class.java)
-                GlobalScope.launch(Dispatchers.Main) {
-                    prices.value = dataItems.prices
-                    assets.value = dataItems.assets
-                }
-                return true
-            }catch (e:Exception){
-                e.message?.let { Log.d(myExeptionsTag, it) }
-                return false
-            }
-        }
-
-        private fun saveDataToJson(){
-            val gson = Gson()
-            val dataItems = DataItems()
-            dataItems.prices = prices.value
-            dataItems.assets = assets.value
-            val jsonString = gson.toJson(dataItems)
-            fileOutputStream = APP_ACTIVITY.openFileOutput(FILE_NAME, Context.MODE_PRIVATE)
-            fileOutputStream!!.write(jsonString.toByteArray())
-        }
-
-        fun saveData(): Boolean{
-            fileOutputStream = null
-            try {
-                saveDataToJson()
-                return true
-            } catch (e: Exception) {
-                e.printStackTrace()
-                e.message?.let { Log.d(myExeptionsTag, "$it  ошибка при сохранении") }
-            } finally {
-                closeFileOutputStream()
-            }
-            return false
-        }
-
-        private inner class DataItems {
-            var prices: Prices? = null
-            var assets: Assets? = null
         }
     }
 }

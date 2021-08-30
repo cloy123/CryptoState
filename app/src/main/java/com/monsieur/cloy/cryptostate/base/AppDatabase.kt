@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Assets.AssetDao
+import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfo
 import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfoDao
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.model.Prices.PriceDao
 
-@Database(entities =  [(Price::class), (Asset::class)], version = 1)
+@Database(entities =  [(Price::class), (Asset::class), (AssetsInfo::class)], version = 1)
 abstract class AppDatabase(): RoomDatabase() {
 
     abstract fun priceDao(): PriceDao
@@ -26,7 +27,7 @@ abstract class AppDatabase(): RoomDatabase() {
             if(instance == null){
                 synchronized(AppDatabase::class.java){
                     if(instance == null){
-                        instance = Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
+                        instance = Room.databaseBuilder(context, AppDatabase::class.java, "mydatabase").build()
                     }
                 }
             }

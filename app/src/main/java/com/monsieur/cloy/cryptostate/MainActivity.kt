@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.databinding.ActivityMainBinding
 import com.monsieur.cloy.cryptostate.ui.assets.AddAsset
 import com.monsieur.cloy.cryptostate.ui.main.MainFragment
@@ -17,7 +17,7 @@ import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         APP_ACTIVITY = this
         replaceFragment(MainFragment(), false)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.loadData()
         setSupportActionBar(binding.toolbar)
     }
 
@@ -79,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_add -> {
-                if(viewModel.currentTabPosition == 0){
+                if(currentTabPosition == 0){
                     replaceFragment(AddPrice())
                 }else{
                     replaceFragment(AddAsset())

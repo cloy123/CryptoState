@@ -33,51 +33,52 @@ class AssetRepository(application: Application) {
     }
 
     @JvmName("updateAssets1")
-    fun updateAssets(prices: List<Price>, usdPrices: UsdPrices){
-        GlobalScope.launch {
-            if (allAssets != null && allAssets!!.value != null) {
-                val newAssetsInfo = AssetsInfo()
-                val newAssets = allAssets!!.value
+    fun updateAssets(prices: List<Price>, usdPrices: UsdPrices): Boolean{
+        ifLastUpdateError = false
+        if (allAssets != null && allAssets!!.value != null) {
+            val newAssetsInfo = AssetsInfo()
+            val newAssets = allAssets!!.value
 
-                for (asset in newAssets!!) {
-                    val price = PriceRepository.findPrice(prices, asset.symbol)
-                    if (price != null) {
-                        asset.update(price)
-                    } else {
-                        ifLastUpdateError = true
-                        Log.d(myExeptionsTag, "не получилось найти в списке prices ${asset.symbol}")
-                    }
-                    newAssetsInfo.quantityRUB += asset.quantityRUB
-                    newAssetsInfo.quantityUSD += asset.quantityUSD
-                    newAssetsInfo.quantityEUR += asset.quantityEUR
-                    newAssetsInfo.quantityUAH += asset.quantityUAH
-                    newAssetsInfo.changeUSD += usdPrices.convert(
-                        asset.mainCurrency,
-                        Currency.USD,
-                        asset.change
-                    )
-                    newAssetsInfo.changeRUB += usdPrices.convert(
-                        asset.mainCurrency,
-                        Currency.RUB,
-                        asset.change
-                    )
-                    newAssetsInfo.changeEUR += usdPrices.convert(
-                        asset.mainCurrency,
-                        Currency.EUR,
-                        asset.change
-                    )
-                    newAssetsInfo.changeUAH += usdPrices.convert(
-                        asset.mainCurrency,
-                        Currency.UAH,
-                        asset.change
-                    )
-                    Log.d(myInfoTag, "quantityRUB = $newAssetsInfo.quantityRUB")
+            for (asset in newAssets!!) {
+                val price = PriceRepository.findPrice(prices, asset.symbol)
+                if (price != null) {
+                    asset.update(price)
+                } else {
+                    ifLastUpdateError = true
+                    Log.d(myExeptionsTag, "не получилось найти в списке prices ${asset.symbol}")
                 }
-                //TODO как-то поменять или получить новое значение заново
-                updateAssetsInfo(newAssetsInfo)
-                updateAssets(newAssets)
+                newAssetsInfo.quantityRUB += asset.quantityRUB
+                newAssetsInfo.quantityUSD += asset.quantityUSD
+                newAssetsInfo.quantityEUR += asset.quantityEUR
+                newAssetsInfo.quantityUAH += asset.quantityUAH
+                newAssetsInfo.changeUSD += usdPrices.convert(
+                    asset.mainCurrency,
+                    Currency.USD,
+                    asset.change
+                )
+                newAssetsInfo.changeRUB += usdPrices.convert(
+                    asset.mainCurrency,
+                    Currency.RUB,
+                    asset.change
+                )
+                newAssetsInfo.changeEUR += usdPrices.convert(
+                    asset.mainCurrency,
+                    Currency.EUR,
+                    asset.change
+                )
+                newAssetsInfo.changeUAH += usdPrices.convert(
+                    asset.mainCurrency,
+                    Currency.UAH,
+                    asset.change
+                )
+                Log.d(myInfoTag, "quantityRUB = $newAssetsInfo.quantityRUB")
             }
+            updateAssetsInfo(newAssetsInfo)
+            updateAssets(newAssets)
+        }else{
+            ifLastUpdateError = true
         }
+        return ifLastUpdateError
     }
 
     fun isEmpty():Boolean{
@@ -105,15 +106,21 @@ class AssetRepository(application: Application) {
         }
     }
 
-    fun deleteAsset(symbol: String, asset: String){
+    fun deleteAsset(asset: Asset){
         GlobalScope.launch {
-            assetDao?.deleteAsset(symbol, asset)
+            assetDao?.deleteAsset(asset)
         }
     }
 
     private fun updateAssets(assets: List<Asset>){
         GlobalScope.launch {
             assetDao?.updateAssets(assets)
+        }
+    }
+
+    fun updateAsset(asset: Asset){
+        GlobalScope.launch {
+            assetDao?.updateAsset(asset)
         }
     }
 }

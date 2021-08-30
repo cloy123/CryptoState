@@ -15,4 +15,4 @@ val FILE_NAME = "CryptoStateData.json"
 
 val myExeptionsTag = "myExeptions"
 val myInfoTag = "myInfo"
-var usdPrices: UsdPrices = UsdPrices()
+var currentTabPosition = 0

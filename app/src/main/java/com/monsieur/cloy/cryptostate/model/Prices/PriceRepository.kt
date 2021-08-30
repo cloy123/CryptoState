@@ -24,10 +24,10 @@ class PriceRepository(application: Application) {
         allPrices = priceDao?.getAllPrices()
     }
 
-    fun updatePrices(usdPrices: UsdPrices){
+    fun updatePrices(usdPrices: UsdPrices): Boolean{
+        ifLastUpdateError = false
         if(allPrices != null && allPrices.value != null){
             val newPrices = allPrices.value
-            ifLastUpdateError = false
             for(price in newPrices!!){
                 price.updateCurrency(usdPrices)
                 if(price.ifLastUpdateError){
@@ -36,7 +36,10 @@ class PriceRepository(application: Application) {
                 }
             }
             updatePrices(newPrices)
+        }else{
+            ifLastUpdateError = true
         }
+        return ifLastUpdateError
     }
 
     private fun asyncFinished(result: List<Price>){
@@ -58,15 +61,15 @@ class PriceRepository(application: Application) {
         return true
     }
 
-    fun insetPrices(prices: List<Price>){
+    fun insertPrices(prices: List<Price>){
         GlobalScope.launch {
             priceDao?.insertPrices(prices)
         }
     }
 
-    fun deletePrice(symbol: String, symbolName: String){
+    fun deletePrice(price: Price){
         GlobalScope.launch {
-            priceDao?.deletePrice(symbol, symbolName)
+            priceDao?.deletePrice(price)
         }
     }
 

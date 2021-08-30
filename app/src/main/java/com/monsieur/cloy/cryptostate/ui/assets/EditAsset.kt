@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentEditAssetBinding
@@ -15,10 +16,12 @@ import com.monsieur.cloy.cryptostate.utilits.changeToolBar
 import com.monsieur.cloy.cryptostate.utilits.showToast
 import com.monsieur.cloy.cryptostate.viewModels.MainViewModel
 
-class EditAsset(private var asset: Asset, private var price: Price) : Fragment() {
+class EditAsset(private var asset: Asset) : Fragment() {
 
     private lateinit var _binding: FragmentEditAssetBinding
     private val binding get() = _binding
+    private val viewModel: MainViewModel by viewModels()
+    private var price: Price? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +34,7 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
     override fun onStart() {
         super.onStart()
         updateFields()
+        price = viewModel.findPrice(asset.symbol)
         changeToolBar(menu = false, homeButton = true, getString(R.string.edit_asset_title))
         binding.cancelButton.setOnClickListener {
             backButton()
@@ -38,7 +42,11 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
 
         binding.buy.setOnClickListener {
             if(binding.buyPrice.text.trim().isNotEmpty() && binding.buyQuantity.text.trim().isNotEmpty()){
-                asset.buy(binding.buyQuantity.text.toString().toFloat(), binding.buyPrice.text.toString().toFloat(), price)
+                if(price == null){
+                    showToast("Курс актива не найден")
+                    return@setOnClickListener
+                }
+                asset.buy(binding.buyQuantity.text.toString().toFloat(), binding.buyPrice.text.toString().toFloat(), price!!)
                 updateFields()
             }
             else{
@@ -48,7 +56,11 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
 
         binding.sell.setOnClickListener {
             if(binding.sellPrice.text.trim().isNotEmpty() || binding.sellQuantity.text.trim().isNotEmpty()){
-                asset.sell(binding.sellQuantity.text.toString().toFloat(), binding.sellPrice.text.toString().toFloat(), price)
+                if(price == null){
+                    showToast("Курс актива не найден")
+                    return@setOnClickListener
+                }
+                asset.sell(binding.sellQuantity.text.toString().toFloat(), binding.sellPrice.text.toString().toFloat(), price!!)
                 updateFields()
             }
             else{
@@ -61,9 +73,8 @@ class EditAsset(private var asset: Asset, private var price: Price) : Fragment()
                 showToast(getString(R.string.fields_not_filled))
                 return@setOnClickListener
             }else{
-                val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
                 asset.asset = binding.assetName.text.trim().toString()
-                viewModel.saveAsset(asset)
+                viewModel.editAsset(asset)
                 backButton()
             }
         }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.monsieur.cloy.cryptostate.R
 import com.monsieur.cloy.cryptostate.databinding.FragmentAddPriceBinding
@@ -16,6 +17,7 @@ class AddPrice : Fragment() {
 
     private lateinit var _binding: FragmentAddPriceBinding
     private val binding get() = _binding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +38,6 @@ class AddPrice : Fragment() {
                 showToast(getString(R.string.fields_not_filled))
                 return@setOnClickListener
             }else{
-                val viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
                 val site = resources.getStringArray(R.array.sites)[ binding.spinnerUrl.selectedItemPosition]
                 val element = getElement(site)
                 viewModel.addPrice(

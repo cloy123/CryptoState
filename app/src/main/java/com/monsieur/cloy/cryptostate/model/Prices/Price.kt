@@ -27,7 +27,7 @@ class Price {
     var priceEUR: Float = 0f
     var priceRUB: Float = 0f
     var priceUAH: Float = 0f
-    private var conventionalUnitPrice: Float = 0f
+    var conventionalUnitPrice: Float = 0f
 
     @ColumnInfo(name = "isDefaultFiatPrice")
     var isDefaultFiatPrice = false
@@ -46,7 +46,7 @@ class Price {
 
     @ColumnInfo(name = "url")
     var url: String = ""
-    private var element: String = ""
+    var element: String = ""
 
     constructor(symbol: String, symbolName: String, mainCurrency: Currency, category: Categories, url: String, element: String){
         this.symbol = symbol
