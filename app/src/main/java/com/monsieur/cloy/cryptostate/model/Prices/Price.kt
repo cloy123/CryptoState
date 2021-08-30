@@ -1,14 +1,26 @@
 package com.monsieur.cloy.cryptostate.model.Prices
 
 import android.util.Log
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import org.jsoup.Jsoup
 import com.monsieur.cloy.cryptostate.utilits.Currency
 import com.monsieur.cloy.cryptostate.utilits.Categories
 import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import com.monsieur.cloy.cryptostate.utilits.myInfoTag
 
-open class Price(var symbol: String, var symbolName: String, var mainCurrency: Currency, var category: Categories, val url: String, private val element: String) {
+@Entity(tableName = "prices")
+class Price {
 
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @ColumnInfo(name = "priceId")
+    var id = 0
+
+    @Ignore
     var ifLastUpdateError: Boolean = false
 
     var priceUSD: Float = 0f
@@ -16,9 +28,36 @@ open class Price(var symbol: String, var symbolName: String, var mainCurrency: C
     var priceRUB: Float = 0f
     var priceUAH: Float = 0f
     private var conventionalUnitPrice: Float = 0f
+
+    @ColumnInfo(name = "isDefaultFiatPrice")
     var isDefaultFiatPrice = false
 
-    open fun getMainPrice(): Float {
+    @ColumnInfo(name = "symbol")
+    var symbol: String = ""
+
+    @ColumnInfo(name = "symbolName")
+    var symbolName: String = ""
+
+    @ColumnInfo(name = "mainCurrency")
+    var mainCurrency: Currency = Currency.USD
+
+    @ColumnInfo(name = "category")
+    var category: Categories = Categories.Fiat
+
+    @ColumnInfo(name = "url")
+    var url: String = ""
+    private var element: String = ""
+
+    constructor(symbol: String, symbolName: String, mainCurrency: Currency, category: Categories, url: String, element: String){
+        this.symbol = symbol
+        this.symbolName = symbolName
+        this.mainCurrency = mainCurrency
+        this.category = category
+        this.url = url
+        this.element = element
+    }
+
+    fun getMainPrice(): Float {
         if(isDefaultFiatPrice){
             return 1f
         }
@@ -31,7 +70,7 @@ open class Price(var symbol: String, var symbolName: String, var mainCurrency: C
         }
     }
 
-    protected open fun setMainPrice(price: Float) {
+    private fun setMainPrice(price: Float) {
         when (mainCurrency) {
             Currency.RUB -> priceRUB = price
             Currency.USD -> priceUSD = price
@@ -68,7 +107,7 @@ open class Price(var symbol: String, var symbolName: String, var mainCurrency: C
 
 
 
-    protected open fun updateMainCurrency() {
+    private fun updateMainCurrency() {
         if(isDefaultFiatPrice){
             setMainPrice(1f)
             return

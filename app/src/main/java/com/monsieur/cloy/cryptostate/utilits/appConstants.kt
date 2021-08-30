@@ -3,6 +3,7 @@ package com.monsieur.cloy.cryptostate.utilits
 import android.view.Menu
 import com.monsieur.cloy.cryptostate.MainActivity
 import com.monsieur.cloy.cryptostate.R
+import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
 
 lateinit var APP_ACTIVITY: MainActivity
 var toolbarMenu: Menu? = null
@@ -14,3 +15,4 @@ val FILE_NAME = "CryptoStateData.json"
 
 val myExeptionsTag = "myExeptions"
 val myInfoTag = "myInfo"
+var usdPrices: UsdPrices = UsdPrices()
