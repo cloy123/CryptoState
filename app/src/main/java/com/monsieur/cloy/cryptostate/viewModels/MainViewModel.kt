@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.monsieur.cloy.cryptostate.appComponent
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Assets.AssetRepository
 import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfo
+import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfoRepository
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.model.Prices.PriceRepository
 import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
@@ -17,19 +19,15 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
-    val priceRepository: PriceRepository
-    val allPrices: LiveData<List<Price>>?
-    val assetRepository: AssetRepository
-    val allAssets: LiveData<List<Asset>>?
-    val assetsInfo: LiveData<List<AssetsInfo>>?
-    val usdPrices: UsdPrices = UsdPrices()
+    private val priceRepository: PriceRepository = application.appComponent.priceRepository
+    val allPrices: LiveData<List<Price>>? = priceRepository.allPrices
+    private val assetRepository: AssetRepository = application.appComponent.assetsRepository
+    private val assetsInfoRepository: AssetsInfoRepository = application.appComponent.assetsInfoRepository
+    val allAssets: LiveData<List<Asset>>? = assetRepository.allAssets
+    val assetsInfo: LiveData<List<AssetsInfo>>? = assetsInfoRepository.assetsInfo
+    private val usdPrices: UsdPrices = UsdPrices()
 
     init {
-        priceRepository = PriceRepository(application)
-        assetRepository = AssetRepository(application)
-        allAssets = assetRepository.allAssets
-        assetsInfo = assetRepository.assetsInfo
-        allPrices = priceRepository.allPrices
         allPrices?.observe(APP_ACTIVITY, Observer {
             //TODO переделать потом
             if(allPrices.value.isNullOrEmpty()){
@@ -53,6 +51,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
             if(!updateAssets()){
                 Log.d(myInfoTag, "Complete updateAssets")
+                updateAssetsInfo()
             }
         }
     }
@@ -72,10 +71,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private fun updateAssets(): Boolean{
         if(allPrices != null && allPrices.value != null){
-            return assetRepository.updateAssets(allPrices.value!!, usdPrices)
+            return assetRepository.updateAssets(allPrices.value!!)
         }else{
             return true
         }
+    }
+
+    private fun updateAssetsInfo(){
+        assetsInfoRepository.updateAssetsInfo(allAssets?.value!!, usdPrices)
     }
 
     fun removeAsset(asset: Asset){

@@ -21,17 +21,8 @@ abstract class AppDatabase(): RoomDatabase() {
     abstract fun assetsInfoDao(): AssetsInfoDao
 
     companion object{
-        private var instance: AppDatabase? = null
-
         fun getInstance(context: Context): AppDatabase{
-            if(instance == null){
-                synchronized(AppDatabase::class.java){
-                    if(instance == null){
-                        instance = Room.databaseBuilder(context, AppDatabase::class.java, "mydatabase").build()
-                    }
-                }
-            }
-            return instance!!
+            return Room.databaseBuilder(context, AppDatabase::class.java, "mydatabase").build()
         }
     }
 }

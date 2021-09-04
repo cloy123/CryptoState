@@ -1,42 +1,28 @@
 package com.monsieur.cloy.cryptostate.model.Assets
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.monsieur.cloy.cryptostate.base.AppDatabase
-import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfo
-import com.monsieur.cloy.cryptostate.model.Assets.assetsInfo.AssetsInfoDao
-import com.monsieur.cloy.cryptostate.model.Prices.*
-import com.monsieur.cloy.cryptostate.utilits.Currency
+import com.monsieur.cloy.cryptostate.model.Prices.Price
+import com.monsieur.cloy.cryptostate.model.Prices.PriceRepository
 import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
-import com.monsieur.cloy.cryptostate.utilits.myInfoTag
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AssetRepository(application: Application) {
+class AssetRepository @Inject constructor(val assetDao: AssetDao) {
 
     var ifLastUpdateError = false
 
-    private var assetDao: AssetDao? = null
     var allAssets : LiveData<List<Asset>>? = null
-    private var assetsInfoDao: AssetsInfoDao? = null
-    var assetsInfo: LiveData<List<AssetsInfo>>? = null
 
     init {
-        val db = AppDatabase.getInstance(application)
-        assetDao = db.assetDao()
-        allAssets = assetDao?.getAllAssets()
-        assetsInfoDao = db.assetsInfoDao()
-        assetsInfo = assetsInfoDao?.getAssetsInfo()
+        allAssets = assetDao.getAllAssets()
     }
 
     @JvmName("updateAssets1")
-    fun updateAssets(prices: List<Price>, usdPrices: UsdPrices): Boolean{
+    fun updateAssets(prices: List<Price>): Boolean{
         ifLastUpdateError = false
         if (allAssets != null && allAssets!!.value != null) {
-            val newAssetsInfo = AssetsInfo()
             val newAssets = allAssets!!.value
 
             for (asset in newAssets!!) {
@@ -47,33 +33,8 @@ class AssetRepository(application: Application) {
                     ifLastUpdateError = true
                     Log.d(myExeptionsTag, "не получилось найти в списке prices ${asset.symbol}")
                 }
-                newAssetsInfo.quantityRUB += asset.quantityRUB
-                newAssetsInfo.quantityUSD += asset.quantityUSD
-                newAssetsInfo.quantityEUR += asset.quantityEUR
-                newAssetsInfo.quantityUAH += asset.quantityUAH
-                newAssetsInfo.changeUSD += usdPrices.convert(
-                    asset.mainCurrency,
-                    Currency.USD,
-                    asset.change
-                )
-                newAssetsInfo.changeRUB += usdPrices.convert(
-                    asset.mainCurrency,
-                    Currency.RUB,
-                    asset.change
-                )
-                newAssetsInfo.changeEUR += usdPrices.convert(
-                    asset.mainCurrency,
-                    Currency.EUR,
-                    asset.change
-                )
-                newAssetsInfo.changeUAH += usdPrices.convert(
-                    asset.mainCurrency,
-                    Currency.UAH,
-                    asset.change
-                )
-                Log.d(myInfoTag, "quantityRUB = $newAssetsInfo.quantityRUB")
+
             }
-            updateAssetsInfo(newAssetsInfo)
             updateAssets(newAssets)
         }else{
             ifLastUpdateError = true
@@ -88,39 +49,33 @@ class AssetRepository(application: Application) {
         return true
     }
 
-    private fun updateAssetsInfo(assetsInfo: AssetsInfo){
-        GlobalScope.launch {
-            assetsInfoDao?.updateAssetsInfo(assetsInfo)
-        }
-    }
-
     fun insertAsset(asset: Asset){
         GlobalScope.launch {
-            assetDao?.insertAsset(asset)
+            assetDao.insertAsset(asset)
         }
     }
 
     fun insertAssets(assets: List<Asset>){
         GlobalScope.launch {
-            assetDao?.insertAssets(assets)
+            assetDao.insertAssets(assets)
         }
     }
 
     fun deleteAsset(asset: Asset){
         GlobalScope.launch {
-            assetDao?.deleteAsset(asset)
+            assetDao.deleteAsset(asset)
         }
     }
 
     private fun updateAssets(assets: List<Asset>){
         GlobalScope.launch {
-            assetDao?.updateAssets(assets)
+            assetDao.updateAssets(assets)
         }
     }
 
     fun updateAsset(asset: Asset){
         GlobalScope.launch {
-            assetDao?.updateAsset(asset)
+            assetDao.updateAsset(asset)
         }
     }
 }

@@ -9,19 +9,17 @@ import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PriceRepository(application: Application) {
+class PriceRepository @Inject constructor (val priceDao: PriceDao) {
 
     val searchResult = MutableLiveData<List<Price>>()
-    private var priceDao: PriceDao? = null
     val allPrices : LiveData<List<Price>>?
 
     var ifLastUpdateError = false
 
     init {
-        val db = AppDatabase.getInstance(application)
-        priceDao = db.priceDao()
-        allPrices = priceDao?.getAllPrices()
+        allPrices = priceDao.getAllPrices()
     }
 
     fun updatePrices(usdPrices: UsdPrices): Boolean{
@@ -50,7 +48,7 @@ class PriceRepository(application: Application) {
 
     fun insertPrice(price: Price){
         GlobalScope.launch {
-            priceDao?.insertPrice(price)
+            priceDao.insertPrice(price)
         }
     }
 
@@ -63,31 +61,31 @@ class PriceRepository(application: Application) {
 
     fun insertPrices(prices: List<Price>){
         GlobalScope.launch {
-            priceDao?.insertPrices(prices)
+            priceDao.insertPrices(prices)
         }
     }
 
     fun deletePrice(price: Price){
         GlobalScope.launch {
-            priceDao?.deletePrice(price)
+            priceDao.deletePrice(price)
         }
     }
 
     fun findPrice(symbolName: String){
         GlobalScope.launch {
-            priceDao?.findPrice(symbolName)?.let { asyncFinished(it) }
+            asyncFinished(priceDao.findPrice(symbolName))
         }
     }
 
     fun updatePrice(price: Price){
         GlobalScope.launch {
-            priceDao?.updatePrice(price)
+            priceDao.updatePrice(price)
         }
     }
 
     private fun updatePrices(prices: List<Price>){
         GlobalScope.launch {
-            priceDao?.updatePrices(prices)
+            priceDao.updatePrices(prices)
         }
     }
 
