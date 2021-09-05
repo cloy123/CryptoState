@@ -27,20 +27,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val assetsInfo: LiveData<List<AssetsInfo>>? = assetsInfoRepository.assetsInfo
     private val usdPrices: UsdPrices = UsdPrices()
 
-    init {
-        allPrices?.observe(APP_ACTIVITY, Observer {
-            //TODO переделать потом
-            if(allPrices.value.isNullOrEmpty()){
-                priceRepository.insertPrices(
-                    listOf<Price>(
-                        Price.getDefaultFiatPrice("USD", Currency.USD),
-                        Price.getDefaultFiatPrice("RUB", Currency.RUB),
-                        Price.getDefaultFiatPrice("EUR", Currency.EUR),
-                        Price.getDefaultFiatPrice("UAH", Currency.UAH)))
-            }
-        })
-    }
-
     fun refresh(){
         GlobalScope.launch {
             if(!updateUsdPrices()) {

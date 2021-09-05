@@ -7,6 +7,8 @@ import com.monsieur.cloy.cryptostate.di.AppComponent
 import com.monsieur.cloy.cryptostate.di.AppModule
 import com.monsieur.cloy.cryptostate.di.DaggerAppComponent
 import com.monsieur.cloy.cryptostate.di.RoomModule
+import com.monsieur.cloy.cryptostate.model.Prices.Price
+import com.monsieur.cloy.cryptostate.utilits.Currency
 
 class App : Application() {
 
@@ -19,6 +21,23 @@ class App : Application() {
             .appModule(AppModule(this))
             .roomModule(RoomModule(this))
             .build()
+        setTheme()
+        addDefaultPrices()
+    }
+
+    fun addDefaultPrices(){
+        val sharedPreferences = getSharedPreferences("DefaultPrices", MODE_PRIVATE)
+        if(!sharedPreferences.getBoolean("added", false)){
+            appComponent.priceRepository.insertPrices(listOf<Price>(
+                Price.getDefaultFiatPrice("USD", Currency.USD),
+                Price.getDefaultFiatPrice("RUB", Currency.RUB),
+                Price.getDefaultFiatPrice("EUR", Currency.EUR),
+                Price.getDefaultFiatPrice("UAH", Currency.UAH)))
+            sharedPreferences.edit().putBoolean("added", true).apply()
+        }
+    }
+
+    fun setTheme(){
         val sharedPreferences = getSharedPreferences("theme", MODE_PRIVATE)
         if(sharedPreferences.contains("dark")){
             if(sharedPreferences.getBoolean("dark", false)){
