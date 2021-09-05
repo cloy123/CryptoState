@@ -42,13 +42,6 @@ class AssetRepository @Inject constructor(val assetDao: AssetDao) {
         return ifLastUpdateError
     }
 
-    fun isEmpty():Boolean{
-        if(allAssets != null && allAssets!!.value != null){
-            return allAssets!!.value!!.isEmpty()
-        }
-        return true
-    }
-
     fun insertAsset(asset: Asset){
         GlobalScope.launch {
             assetDao.insertAsset(asset)

@@ -18,12 +18,6 @@ interface PriceDao {
     @Query("SELECT * FROM prices")
     fun getAllPrices(): LiveData<List<Price>>
 
-    @Query("SELECT * FROM prices WHERE symbolName = :symbolName")
-    fun findPrice(symbolName: String): List<Price>
-
-    @Update
-    fun updatePrice(price: Price)
-
     @Update
     fun updatePrices(prices: List<Price>)
 }
