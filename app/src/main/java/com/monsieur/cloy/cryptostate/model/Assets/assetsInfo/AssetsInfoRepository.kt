@@ -12,11 +12,7 @@ import javax.inject.Inject
 
 class AssetsInfoRepository @Inject constructor(val assetsInfoDao: AssetsInfoDao) {
 
-    var assetsInfo: LiveData<List<AssetsInfo>>? = null
-
-    init {
-        assetsInfo = assetsInfoDao.getAssetsInfo()
-    }
+    val assetsInfo: LiveData<List<AssetsInfo>> = assetsInfoDao.getAssetsInfo()
 
     fun updateAssetsInfo(assets: List<Asset>, usdPrices: UsdPrices){
         val newAssetsInfo = AssetsInfo()
@@ -45,14 +41,16 @@ class AssetsInfoRepository @Inject constructor(val assetsInfoDao: AssetsInfoDao)
                 Currency.UAH,
                 asset.change
             )
-            Log.d(myInfoTag, "quantityRUB = $newAssetsInfo.quantityRUB")
+            Log.d(myInfoTag, "quantityRUB = ${newAssetsInfo.quantityRUB}")
         }
-        updateAssetsInfo(newAssetsInfo)
+        if(assets.isNotEmpty()){
+            insertAssetsInfo(newAssetsInfo)
+        }
     }
 
-    private fun updateAssetsInfo(assetsInfo: AssetsInfo){
+    private fun insertAssetsInfo(assetsInfo: AssetsInfo){
         GlobalScope.launch {
-            assetsInfoDao.updateAssetsInfo(assetsInfo)
+            assetsInfoDao.insertAssetsInfo(assetsInfo)
         }
     }
 

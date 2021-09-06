@@ -38,21 +38,23 @@ class PageAssets : Fragment() {
         if(viewModel.allAssets != null && viewModel.allAssets!!.value != null && viewModel.allAssets!!.value!!.isNotEmpty()){
             updateFields()
         }
-        viewModel.allAssets?.observe(viewLifecycleOwner, Observer {
+        viewModel.assetsInfo.observe(viewLifecycleOwner, Observer {
             updateFields()
+        })
+        viewModel.allAssets?.observe(viewLifecycleOwner, Observer {
+            if(it != null){
+                recyclerAdapter.setItems(it)
+            }
         })
     }
 
 
     private fun updateFields(){
-        val assets = viewModel.allAssets!!.value
-        recyclerAdapter.setItems(assets!!)
-        var assetsInfo: AssetsInfo? = null
-        if(viewModel.assetsInfo != null && !viewModel.assetsInfo!!.value.isNullOrEmpty()) {
-            assetsInfo = viewModel.assetsInfo!!.value?.get(0)
-        }
-        if(assetsInfo == null){
-            assetsInfo = AssetsInfo()
+        val assetsInfo: AssetsInfo = if(viewModel.assetsInfo.value.isNullOrEmpty()) {
+            AssetsInfo()
+        }else {
+            val lastIndex = viewModel.assetsInfo.value?.size!!.minus(1)
+            viewModel.assetsInfo.value?.get(lastIndex)!!
         }
         binding.usd.text = assetsInfo.quantityUSD.toString()
         binding.eur.text = assetsInfo.quantityEUR.toString()

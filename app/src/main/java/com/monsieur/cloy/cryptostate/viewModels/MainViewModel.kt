@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.google.gson.Gson
 import com.monsieur.cloy.cryptostate.appComponent
 import com.monsieur.cloy.cryptostate.model.Assets.Asset
 import com.monsieur.cloy.cryptostate.model.Assets.AssetRepository
@@ -14,8 +15,14 @@ import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.model.Prices.PriceRepository
 import com.monsieur.cloy.cryptostate.model.Prices.UsdPrices
 import com.monsieur.cloy.cryptostate.utilits.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.jsoup.Jsoup
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
 
@@ -24,7 +31,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val assetRepository: AssetRepository = application.appComponent.assetsRepository
     private val assetsInfoRepository: AssetsInfoRepository = application.appComponent.assetsInfoRepository
     val allAssets: LiveData<List<Asset>>? = assetRepository.allAssets
-    val assetsInfo: LiveData<List<AssetsInfo>>? = assetsInfoRepository.assetsInfo
+    val assetsInfo: LiveData<List<AssetsInfo>> = assetsInfoRepository.assetsInfo
     private val usdPrices: UsdPrices = UsdPrices()
 
     fun refresh(){

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.monsieur.cloy.cryptostate.model.Prices.Price
 import com.monsieur.cloy.cryptostate.model.Prices.PriceRepository
 import com.monsieur.cloy.cryptostate.utilits.myExeptionsTag
+import com.monsieur.cloy.cryptostate.utilits.myInfoTag
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,22 +14,19 @@ class AssetRepository @Inject constructor(val assetDao: AssetDao) {
 
     var ifLastUpdateError = false
 
-    var allAssets : LiveData<List<Asset>>? = null
-
-    init {
-        allAssets = assetDao.getAllAssets()
-    }
+    val allAssets : LiveData<List<Asset>> = assetDao.getAllAssets()
 
     @JvmName("updateAssets1")
     fun updateAssets(prices: List<Price>): Boolean{
         ifLastUpdateError = false
-        if (allAssets != null && allAssets!!.value != null) {
-            val newAssets = allAssets!!.value
+        if (allAssets.value != null) {
+            val newAssets = allAssets.value
 
             for (asset in newAssets!!) {
                 val price = PriceRepository.findPrice(prices, asset.symbol)
                 if (price != null) {
                     asset.update(price)
+                    Log.d(myInfoTag, asset.symbol)
                 } else {
                     ifLastUpdateError = true
                     Log.d(myExeptionsTag, "не получилось найти в списке prices ${asset.symbol}")
@@ -37,6 +35,7 @@ class AssetRepository @Inject constructor(val assetDao: AssetDao) {
             }
             updateAssets(newAssets)
         }else{
+            Log.d(myInfoTag, "update assets - ERROR2")
             ifLastUpdateError = true
         }
         return ifLastUpdateError

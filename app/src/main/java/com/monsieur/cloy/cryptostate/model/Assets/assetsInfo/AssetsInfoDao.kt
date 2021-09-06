@@ -17,5 +17,5 @@ interface AssetsInfoDao {
     fun getAssetsInfo(): LiveData<List<AssetsInfo>>
 
     @Update
-    fun updateAssetsInfo(assetsInfo: AssetsInfo)
+    fun updateAssetsInfo(assetsInfo: List<AssetsInfo>)
 }
